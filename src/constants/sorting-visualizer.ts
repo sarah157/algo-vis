@@ -26,5 +26,5 @@ export const maxArrayLength = 100;
 export const minArrayLength = 10;
 export const maxArrayValue = 50;
 export const minArrayValue = 5;
-export const maxSpeed = 6;
+export const maxSpeed = 5;
 export const minSpeed = 1;

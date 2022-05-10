@@ -49,7 +49,7 @@ export const startSorting = createAsyncThunk<void, void, {state: RootState}>(
 
     while (event && sv.isSorting) {
       dispatchEvent();
-      if (sv.speed < maxSpeed) await sleep(1000 / sv.speed**4);
+      await sleep(1000 / sv.speed**4);
       event = gen.next().value;
       sv = getState().sortingVisualizer
     }
@@ -87,9 +87,9 @@ const sortVisualizerSlice = createSlice({
   initialState: initialState,
   reducers: {
     reset(state) {
+      state.sortedIndices = [];
       state.swapIndices = [];
       state.compareIndices = [];
-      state.sortedIndices = [];
       state.array = generateArray(state.arrayLength, minArrayValue, maxArrayValue);
     },
     setIndexValue(state, action: PayloadAction<number[]>) {
@@ -108,6 +108,7 @@ const sortVisualizerSlice = createSlice({
     },
     setIsSorting(state, action: PayloadAction<boolean>) {
       state.isSorting = action.payload;
+      state.isSorted = false;
     },
     setIsSorted(state, action: PayloadAction<boolean>) {
       state.isSorted = action.payload;
@@ -117,12 +118,7 @@ const sortVisualizerSlice = createSlice({
       }
     },
     setArrayLength(state, action: PayloadAction<number>) {
-      if (action.payload === state.arrayLength) return;
       state.arrayLength = action.payload;
-      state.array = generateArray(state.arrayLength, minArrayValue, maxArrayValue);
-      state.swapIndices = [];
-      state.compareIndices = [];
-      state.sortedIndices = [];
     },
     setSpeed(state, action: PayloadAction<number>) {
       state.speed = action.payload;

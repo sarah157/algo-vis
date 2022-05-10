@@ -36,35 +36,37 @@ const ALGORITHMS = [
   { id: SortAlgorithm.mergeSort, label: "Merge Sort", desc: "" },
 ];
 
-interface Props {
-  onPlay: () => void;
-}
 
-const Controls: React.FC<Props> = ({ onPlay }) => {
+const Controls: React.FC = () => {
   const sv = useSelector((state: RootState) => state.sortingVisualizer);
   const dispatch = useDispatch<AppDispatch>();
 
   const _reset = () => dispatch(reset());
+  const _setArrayLength = (len: number) => dispatch(setArrayLength(len));
+  const _setAlgorithm = (algorithm: SortAlgorithm) => dispatch(setAlgorithm(algorithm));
+  const _setSpeed = (speed: number) => dispatch(setSpeed(speed));
+  const _stopSorting = () => dispatch(stopSorting());
+  const _startSorting = () => dispatch(startSorting());
 
-  const _setArrayLength = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setArrayLength(parseInt(e.target.value)));
-  };
-  const _setAlgorithm = (e: SelectChangeEvent) => {
-    dispatch(setAlgorithm(e.target.value as SortAlgorithm));
+  const handleChangeArrayLength = (e: ChangeEvent<HTMLInputElement>) => {
+    const len: number = parseInt(e.target.value);
+    if (len === sv.arrayLength) return;
+    _setArrayLength(len);
+    _reset();
+  }
+
+  const handleChangeAlgorithm = (e: SelectChangeEvent) => {
+    _setAlgorithm(e.target.value as SortAlgorithm);
+    if (sv.isSorted) _reset();
   };
 
-  const _setSpeed = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSpeed(parseInt(e.target.value)));
-  };
+  const handleChangeSpeed = (e: ChangeEvent<HTMLInputElement>) => {
+    _setSpeed(parseInt(e.target.value));
+  }
 
-  const _startSorting = () => {
-    onPlay();
-    dispatch(startSorting());
-  };
-
-  const _stopSorting = () => {
-    dispatch(stopSorting());
-  };
+  const handleStartSorting = () => {
+    _startSorting();
+  }
 
   return (
     <div className="controls" data-testid="sv-controls">
@@ -80,7 +82,7 @@ const Controls: React.FC<Props> = ({ onPlay }) => {
             id="algorithm-menu"
             value={sv.algorithm}
             disabled={sv.isSorting}
-            onChange={_setAlgorithm}
+            onChange={handleChangeAlgorithm}
           >
             {ALGORITHMS.map((algo) => (
               <MenuItem
@@ -100,7 +102,7 @@ const Controls: React.FC<Props> = ({ onPlay }) => {
         <div className="array-controls__label">
           <div>Array size</div>
           <button onClick={_reset} disabled={sv.isSorting}>
-            <RefreshRoundedIcon className="icon-refresh" sx={{fontSize: "1.75em"}} />
+            <RefreshRoundedIcon className="icon-refresh" sx={{ fontSize: "1.75em" }} />
           </button>
         </div>
         <div className="array-controls__slider">
@@ -113,7 +115,7 @@ const Controls: React.FC<Props> = ({ onPlay }) => {
             min={minArrayLength}
             max={maxArrayLength}
             step={30}
-            onChange={(e: any) => _setArrayLength(e)}
+            onChange={(e: any) => handleChangeArrayLength(e)}
           />
           <div className="slider-label">
             <span>{minArrayLength}</span>
@@ -121,7 +123,6 @@ const Controls: React.FC<Props> = ({ onPlay }) => {
           </div>
         </div>
       </div>
-
       <div className="speed-controls">
         <div className="speed-controls__label">
           <div>Speed</div>
@@ -135,7 +136,7 @@ const Controls: React.FC<Props> = ({ onPlay }) => {
             max={maxSpeed}
             min={minSpeed}
             marks
-            onChange={(e: any) => _setSpeed(e)}
+            onChange={(e: any) => handleChangeSpeed(e)}
           />
           <div className="speed-controls__slider-label slider-label">
             <span>🐢</span>
@@ -149,7 +150,7 @@ const Controls: React.FC<Props> = ({ onPlay }) => {
         </div>
         <button
           className="controls-button"
-          onClick={sv.isSorting ? _stopSorting : _startSorting}
+          onClick={sv.isSorting ? _stopSorting : handleStartSorting}
         >
           {sv.isSorting ? (
             <StopRoundedIcon style={{ fontSize: "50px", color: "red" }} />
