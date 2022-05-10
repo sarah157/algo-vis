@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto+Mono&family=Roboto:wght@300&display=swap');
+
+$light-gray: rgb(200, 200, 200);
+$small-device: 768px;
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+* {
+  font-family: 'Montserrat', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1em;
+}
+
+div,
+body,
+main,
+header,
+h1,
+h2,
+h3,
+p,
+span {
+  padding: 0;
+  margin: 0;
+}
+
+.sorting-visualizer {
+  min-width: 400px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 2em;
+
+  &__title {
+    font-size: 2em;
+
+    @media screen and (max-width: $small-device) {
+      font-size: 1.5em;
+    }
+  }
+
+  &__settings {
+    position: absolute;
+    left: 1.5em;
+    top: 1.75em;
+    background-color: white;
+    display: none;
+
+    @media screen and (max-width: $small-device) {
+      display: block;
+      top: 1.3em;
+    }
+  }
+}
+
+.main {
+  margin: 0 auto;
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+
+  @media screen and (max-width: $small-device) {
+    flex-direction: column;
+    gap: 1em;
+  }
+}
+
+.controls {
+  display: flex;
+  background-color: rgb(246, 246, 246);
+  border: 1px solid gainsboro;
+  border-radius: 5px;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2em 1.5em;
+  height: min-content;
+  align-items: start;
+  gap: 2em;
+  width: 250px;
+  align-items: center;
+
+  @media screen and (max-width: $small-device) {
+    width: 100%;
+    min-width: 250px;
+    position: absolute;
+    top: 4.2em;
+  }
+}
+
+button {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.algorithm-controls {
+  &__form div {
+    font-family: inherit !important;
+
+    :focus {
+      border: none;
+    }
+  }
+
+  &__menu {
+    font-family: inherit !important;
+  }
+
+  &__item {
+    font-family: inherit !important;
+    font-size: 3em;
+  }
+}
+
+.controls-button {
+  font-size: 2em;
+}
+
+.play-controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  &__label {
+    margin-bottom: 0.5em;
+  }
+
+  button:hover {
+    opacity: 0.6;
+  }
+}
+
+.array-controls {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+
+  &.disabled {
+    color: $light-gray;
+  }
+
+  &__label {
+    display: flex;
+    gap: 1em;
+    width: 100%;
+    align-items: center;
+
+    button {
+      margin-top: 0.2em;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}
+
+.speed-controls {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+
+  &__label {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.5em 0;
+  }
+
+  &__slider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &-label {
+      font-size: 1.25em;
+    }
+  }
+}
+
+.array-container {
+  align-items: start;
+  display: flex;
+  justify-content: start;
+  height: 90vh;
+  max-height: $small-device;
+  padding: 0 1em;
+  width: 100%;
+}
+
+.array-bar {
+  border: 2px solid white;
+  // transition: height 0.1s ease-in-out;
+  width: 100%;
+}
+
+
+.slider-label {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.MuiSlider-root {
+  height: 4px !important;
+  color: black !important;
+}
+
+.MuiSlider-mark {
+  height: 10px;
+  width: 3px !important;
+}
+
+.MuiSlider-markActive {
+  height: 10px !important;
+}
+
+.Mui-disabled {
+  color: $light-gray;
+}
