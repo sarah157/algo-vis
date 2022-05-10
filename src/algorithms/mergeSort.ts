@@ -38,14 +38,14 @@ function* merge(array: number[], start: number, mid: number, end: number): Gener
     }
 
     while (i <= mid) {
-        yield { type: SortEventType.compare, indices: [i] };
+        // yield { type: SortEventType.compare, indices: [i] };
         yield { type: SortEventType.set, indices: [k, i], value: arr[i] };
         yield* isLastMerge();
         array[k++] = arr[i++]
     }
 
     while (j <= end) {
-        yield { type: SortEventType.compare, indices: [j] };
+        // yield { type: SortEventType.compare, indices: [j] };
         yield { type: SortEventType.set, indices: [k, j], value: arr[j] };
         yield* isLastMerge();
         array[k++] = arr[j++]

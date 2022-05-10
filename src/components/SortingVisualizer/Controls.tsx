@@ -64,10 +64,6 @@ const Controls: React.FC = () => {
     _setSpeed(parseInt(e.target.value));
   }
 
-  const handleStartSorting = () => {
-    _startSorting();
-  }
-
   return (
     <div className="controls" data-testid="sv-controls">
       <div className="algorithm-controls">
@@ -150,7 +146,7 @@ const Controls: React.FC = () => {
         </div>
         <button
           className="controls-button"
-          onClick={sv.isSorting ? _stopSorting : handleStartSorting}
+          onClick={sv.isSorting ? _stopSorting : _startSorting}
         >
           {sv.isSorting ? (
             <StopRoundedIcon style={{ fontSize: "50px", color: "red" }} />

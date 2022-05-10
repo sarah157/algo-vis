@@ -6,6 +6,7 @@ const NORMAL_COLOR: string = "#608be0";
 const COMPARE_COLOR: string = "#d1476a";
 const SWAP_COLOR: string = "#dde66a";
 const SORTED_COLOR: string = "#6fd17f";
+const PIVOT_COLOR: string = "violet";
 
 const ArrayContainer: React.FC = () => {
   const sv = useSelector((state: RootState) => state.sortingVisualizer);
@@ -16,15 +17,16 @@ const ArrayContainer: React.FC = () => {
           className="array-bar"
           style={{
             height: `${(value / maxArrayValue) * 90}%`,
-            backgroundColor: 
-            sv.pivotIndex === index ? "violet" :
-            sv.swapIndices && sv.swapIndices.includes(index)
-            ? SWAP_COLOR
-            :sv.compareIndices.includes(index)
-              ? COMPARE_COLOR
-              : sv.sortedIndices.includes(index)
-              ? SORTED_COLOR
-              : NORMAL_COLOR,
+            backgroundColor:
+              sv.swapIndices!.includes(index)
+                ? SWAP_COLOR
+                : sv.compareIndices.includes(index)
+                ? COMPARE_COLOR
+                : sv.pivotIndex === index
+                ? PIVOT_COLOR
+                : sv.sortedIndices.includes(index)
+                ? SORTED_COLOR
+                : NORMAL_COLOR,
           }}
           key={index}
         ></div>

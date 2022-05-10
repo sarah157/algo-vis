@@ -1,4 +1,10 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  PayloadAction,
+  ThunkDispatch,
+  AnyAction,
+} from "@reduxjs/toolkit";
 import { generateArray, sleep, swap } from "../helpers";
 import {
   SortEvent,
@@ -7,11 +13,11 @@ import {
   initialArrayLength,
   minArrayValue,
   maxArrayValue,
-  initialSpeed
+  initialSpeed,
 } from "../constants";
 import { RootState } from ".";
 
-import * as sorters from "../algorithms"
+import * as sorters from "../algorithms";
 
 interface SortingVisualizerState {
   array: number[];
@@ -39,55 +45,6 @@ const initialState: SortingVisualizerState = {
   isSorting: false,
 };
 
-export const startSorting = createAsyncThunk<void, void, {state: RootState}>(
-  "startSorting",
-  async (_, { dispatch, getState }) => {
-    dispatch(setIsSorting(true));
-    let sv: SortingVisualizerState = getState().sortingVisualizer;
-
-    const gen: Generator<SortEvent> = sorters[sv.algorithm]([...sv.array]);
-    let event: SortEvent = gen.next().value;
-
-    while (event && sv.isSorting) {
-      await dispatchEvent();
-      await sleep(1000 / sv.speed**4);
-      event = gen.next().value;
-      sv = getState().sortingVisualizer
-    }
-
-    if (!event) dispatch(setIsSorted(true));
-    dispatch(resetIndices())
-
-    async function dispatchEvent() {
-      dispatch(setSwapIndices([]))
-      switch (event.type) {
-        case SortEventType.swap:
-          dispatch(setSwapIndices(event.indices));
-          await sleep(1000 / sv.speed**4);
-          dispatch(swapIndices(event.indices));
-          dispatch(setSwapIndices(event.indices));
-          break;
-        case SortEventType.compare:
-          dispatch(setCompareIndices(event.indices));
-          break;
-        case SortEventType.sort:
-          dispatch(addSortedIndices(event.indices));
-          break;
-        case SortEventType.pivot:
-          dispatch(setPivot(event.indices[0]))
-          break;
-        
-        case SortEventType.set:
-          dispatch(setSwapIndices(event.indices));
-          await sleep(1000 / sv.speed**4);
-          dispatch(setIndexValue([event.indices[0], event.indices[0], event.value || 0]));
-          break;
-        default:
-          break;
-      }
-    }
-  }
-);
 
 const sortVisualizerSlice = createSlice({
   name: "sortvisualizer",
@@ -97,11 +54,15 @@ const sortVisualizerSlice = createSlice({
       state.sortedIndices = [];
       state.swapIndices = [];
       state.compareIndices = [];
-      state.array = generateArray(state.arrayLength, minArrayValue, maxArrayValue);
+      state.array = generateArray(
+        state.arrayLength,
+        minArrayValue,
+        maxArrayValue
+      );
     },
-    setIndexValue(state, action: PayloadAction<number[]>) {
-      const [index1, index2, value] = action.payload;
-      state.array[index1] = value;
+    changeValue(state, action: PayloadAction<number[]>) {
+      const [index, value] = action.payload;
+      state.array[index] = value;
     },
     setPivot(state, action) {
       state.pivotIndex = action.payload;
@@ -111,7 +72,7 @@ const sortVisualizerSlice = createSlice({
       state.compareIndices = [];
       state.pivotIndex = -1;
     },
-    swapIndices(state, action) {
+    swapValues(state, action) {
       const [i, j] = action.payload;
       swap(state.array, i, j);
     },
@@ -127,7 +88,10 @@ const sortVisualizerSlice = createSlice({
     },
     setIsSorted(state, action: PayloadAction<boolean>) {
       state.isSorted = action.payload;
-      state.sortedIndices = Array.from({length: state.arrayLength}, (x, i) => i);
+      state.sortedIndices = Array.from(
+        { length: state.arrayLength },
+        (x, i) => i
+      );
       if (state.isSorted) {
         state.isSorting = false;
       }
@@ -150,16 +114,70 @@ const sortVisualizerSlice = createSlice({
   },
 });
 
+export const startSorting = createAsyncThunk<void, void, { state: RootState }>(
+  "startSorting",
+  async (_, { dispatch, getState }) => {
+    dispatch(setIsSorting(true));
+    let sv: SortingVisualizerState = getState().sortingVisualizer;
+    const gen: Generator<SortEvent> = sorters[sv.algorithm]([...sv.array]);
+    let event: SortEvent = gen.next().value;
+
+    while (event && sv.isSorting) {
+      await dispatchEvent(event, sv.speed, dispatch);
+      event = gen.next().value;
+      sv = getState().sortingVisualizer;
+    }
+
+    if (!event) dispatch(setIsSorted(true));
+    dispatch(resetIndices());
+  }
+);
+
+const dispatchEvent = async (
+  event: SortEvent,
+  speed: number,
+  dispatch: ThunkDispatch<RootState, unknown, AnyAction>
+) => {
+  dispatch(setSwapIndices([]));
+  switch (event.type) {
+    case SortEventType.swap:
+      dispatch(setSwapIndices(event.indices));
+      await _sleep(speed);
+      dispatch(swapValues(event.indices));
+      break;
+    case SortEventType.compare:
+      dispatch(setCompareIndices(event.indices));
+      break;
+    case SortEventType.sort:
+      dispatch(addSortedIndices(event.indices));
+      break;
+    case SortEventType.pivot:
+      dispatch(setPivot(event.indices[0]));
+      break;
+    case SortEventType.set:
+      dispatch(setSwapIndices(event.indices));
+      await _sleep(speed);
+      dispatch(changeValue([event.indices[0], event.value!]));
+      break;
+    default:
+      break;
+  }
+  await _sleep(speed);
+};
+
+const _sleep = async (speed: number) => await sleep(1000 / speed ** 4);
+
+
 export const {
   reset,
   setPivot,
-  swapIndices,
+  swapValues,
   resetIndices,
   stopSorting,
   addSortedIndices,
   setIsSorted,
   setIsSorting,
-  setIndexValue,
+  changeValue,
   setSpeed,
   setArrayLength,
   setAlgorithm,
