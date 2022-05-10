@@ -18,7 +18,7 @@ function* selectionSort(array: number[]): Generator<SortEvent> {
       swap(array, i, minIndex);
     }
 
-    yield { type: SortEventType.sortIndex, indices: [i] };
+    yield { type: SortEventType.sort, indices: [i] };
   }
 }
 

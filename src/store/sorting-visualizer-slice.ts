@@ -7,8 +7,7 @@ import {
   initialArrayLength,
   minArrayValue,
   maxArrayValue,
-  initialSpeed,
-  maxSpeed,
+  initialSpeed
 } from "../constants";
 import { RootState } from ".";
 
@@ -22,6 +21,7 @@ interface SortingVisualizerState {
   swapIndices: number[] | undefined;
   compareIndices: number[];
   sortedIndices: number[];
+  pivotIndex: number;
   isSorted: boolean;
   isSorting: boolean;
 }
@@ -34,6 +34,7 @@ const initialState: SortingVisualizerState = {
   swapIndices: [],
   compareIndices: [],
   sortedIndices: [],
+  pivotIndex: -1,
   isSorted: false,
   isSorting: false,
 };
@@ -48,32 +49,38 @@ export const startSorting = createAsyncThunk<void, void, {state: RootState}>(
     let event: SortEvent = gen.next().value;
 
     while (event && sv.isSorting) {
-      dispatchEvent();
+      await dispatchEvent();
       await sleep(1000 / sv.speed**4);
       event = gen.next().value;
       sv = getState().sortingVisualizer
     }
 
     if (!event) dispatch(setIsSorted(true));
-    dispatch(resetIndices());
+    dispatch(resetIndices())
 
-    function dispatchEvent() {
-      dispatch(resetIndices());
+    async function dispatchEvent() {
+      dispatch(setSwapIndices([]))
       switch (event.type) {
         case SortEventType.swap:
+          dispatch(setSwapIndices(event.indices));
+          await sleep(1000 / sv.speed**4);
+          dispatch(swapIndices(event.indices));
           dispatch(setSwapIndices(event.indices));
           break;
         case SortEventType.compare:
           dispatch(setCompareIndices(event.indices));
           break;
-        case SortEventType.sortIndex:
+        case SortEventType.sort:
           dispatch(addSortedIndices(event.indices));
           break;
-        case SortEventType.set:
-          dispatch(setIndexValue([event.indices[0], event.value || 0]));
+        case SortEventType.pivot:
+          dispatch(setPivot(event.indices[0]))
           break;
-        case SortEventType.sortComplete:
-          dispatch(setIsSorted(true));
+        
+        case SortEventType.set:
+          dispatch(setSwapIndices(event.indices));
+          await sleep(1000 / sv.speed**4);
+          dispatch(setIndexValue([event.indices[0], event.indices[0], event.value || 0]));
           break;
         default:
           break;
@@ -93,12 +100,20 @@ const sortVisualizerSlice = createSlice({
       state.array = generateArray(state.arrayLength, minArrayValue, maxArrayValue);
     },
     setIndexValue(state, action: PayloadAction<number[]>) {
-      const [index1, value] = action.payload;
+      const [index1, index2, value] = action.payload;
       state.array[index1] = value;
+    },
+    setPivot(state, action) {
+      state.pivotIndex = action.payload;
     },
     resetIndices(state) {
       state.swapIndices = [];
       state.compareIndices = [];
+      state.pivotIndex = -1;
+    },
+    swapIndices(state, action) {
+      const [i, j] = action.payload;
+      swap(state.array, i, j);
     },
     stopSorting(state) {
       state.isSorting = false;
@@ -127,9 +142,7 @@ const sortVisualizerSlice = createSlice({
       state.algorithm = action.payload;
     },
     setSwapIndices(state, action: PayloadAction<number[]>) {
-      const [i, j] = action.payload;
-      state.swapIndices = [i, j];
-      swap(state.array, i, j);
+      state.swapIndices = action.payload;
     },
     setCompareIndices(state, action: PayloadAction<number[]>) {
       state.compareIndices = action.payload;
@@ -139,6 +152,8 @@ const sortVisualizerSlice = createSlice({
 
 export const {
   reset,
+  setPivot,
+  swapIndices,
   resetIndices,
   stopSorting,
   addSortedIndices,

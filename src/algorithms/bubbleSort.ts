@@ -16,7 +16,7 @@ function* bubbleSort(array: number[]): Generator<SortEvent> {
         swapped = true;
       }
     }
-    yield { type: SortEventType.sortIndex, indices: [--i] };
+    yield { type: SortEventType.sort, indices: [--i] };
   }
 }
 

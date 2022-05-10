@@ -3,7 +3,7 @@ import { swap } from "../helpers";
 
 function* insertionSort(array: number[]): Generator<SortEvent> {
   for (let i = 0; i < array.length; i++) {
-    yield { type: SortEventType.sortIndex, indices: [i] };
+    yield { type: SortEventType.sort, indices: [i] };
     for (let j = i - 1; j >= 0; j--) {
       yield { type: SortEventType.compare, indices: [j, j + 1] };
       if (array[j + 1] < array[j]) {

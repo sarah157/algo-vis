@@ -90,9 +90,9 @@ span {
   row-gap: 3em;
 
 
- @media screen and (max-width: $small-device) {
+  @media screen and (max-width: $small-device) {
     width: 100%;
-    align-items: center;  
+    align-items: center;
     row-gap: 2em;
 
   }
@@ -197,9 +197,9 @@ button {
 }
 
 .array-container {
-  align-items: start;
+  align-items: flex-start;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   height: 90vh;
   max-height: $small-device;
   width: 100%;
@@ -214,24 +214,32 @@ button {
 
 .slider-label {
   display: flex;
-  width: 100%;
+  width: 220px;
+  margin-left: -5px;
   justify-content: space-between;
 }
 
-.MuiSlider-root {
-  height: 4px !important;
-  color: black !important;
-}
+.MuiSlider {
+  &-root {
+    height: 4px !important;
+    color: black !important;
+  }
 
-.MuiSlider-mark {
-  height: 10px;
-  width: 3px !important;
-}
+  &-rail,
+  &-track {
+    height: 3px !important;
+  }
 
-.MuiSlider-markActive {
-  height: 10px !important;
+  &-mark {
+    height: 15px !important;
+    width: 2px !important;
+  }
+
+  &-markActive {
+    background-color: rgb(82, 82, 82) !important;
+  }
 }
 
 .Mui-disabled {
-  color: $light-gray;
+  color: $light-gray !important;
 }

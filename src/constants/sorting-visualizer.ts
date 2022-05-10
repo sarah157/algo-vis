@@ -9,15 +9,16 @@ export enum SortAlgorithm {
 export enum SortEventType {
   swap,
   compare,
-  sortIndex,
+  sort,
   set,
-  sortComplete,
+  pivot
 }
 
 export interface SortEvent {
   type: SortEventType;
   indices: number[];
   value?: number;
+  pivot?: number,
 }
 
 export const initialArrayLength = 35;
