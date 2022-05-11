@@ -12,8 +12,6 @@ $small-device: 768px;
 
 * {
   font-family: 'Montserrat', sans-serif;
-  font-family: 'Roboto', sans-serif;
-  font-family: 'Roboto Mono', monospace;
   font-size: 1em;
 }
 
@@ -33,7 +31,7 @@ span {
 .sorting-visualizer {
   min-width: 400px;
   margin: 0 auto;
-  max-width: 1600px;
+  max-width: 2000px;
 }
 
 .header {
@@ -69,7 +67,7 @@ span {
   display: flex;
   padding: 0 1em;
   gap: 1em;
-  justify-content: center;
+  justify-content: space-between;
 
   @media screen and (max-width: $small-device) {
     flex-direction: column;
@@ -82,11 +80,12 @@ span {
   background-color: transparent;
   background-color: $controls-background-color;
   border: 1px solid gainsboro;
-  border-radius: 5px;
+  border-radius: 5px 5px 0 0;
   flex-direction: column;
   justify-content: space-between;
   padding: 2em 2em;
   height: min-content;
+  align-self: center;
   row-gap: 3em;
 
 
@@ -113,7 +112,7 @@ button {
 
 .algorithm-controls {
   &__form div {
-    font-family: inherit !important;
+    font-family: inherit;
 
     :focus {
       border: none;
@@ -121,23 +120,23 @@ button {
   }
 
   &__menu {
-    font-family: inherit !important;
+    font-family: inherit;
   }
 
   &__item {
-    font-family: inherit !important;
+    font-family: inherit;
     font-size: 3em;
   }
-}
-
-.controls-button {
-  font-size: 2em;
 }
 
 .play-controls {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 3em;
+  background-color: gainsboro;
 
   &__label {
     margin-bottom: 0.5em;
@@ -197,18 +196,24 @@ button {
 }
 
 .array-container {
-  align-items: flex-start;
+  align-items: flex-end;
   display: flex;
   justify-content: flex-start;
-  height: 90vh;
-  max-height: $small-device;
+  height: 80vh;
   width: 100%;
+  max-width: 1600px;
 }
 
 .array-bar {
   margin: 0.2%;
   transition: height 0.1s ease-in-out;
   width: 100%;
+}
+
+
+.array-scatter {
+  width: 100%;
+  
 }
 
 
@@ -221,25 +226,25 @@ button {
 
 .MuiSlider {
   &-root {
-    height: 4px !important;
-    color: black !important;
+    height: 4px;
+    color: black;
   }
 
   &-rail,
   &-track {
-    height: 3px !important;
+    height: 3px;
   }
 
   &-mark {
-    height: 15px !important;
-    width: 2px !important;
+    height: 15px;
+    width: 2px;
   }
 
   &-markActive {
-    background-color: rgb(82, 82, 82) !important;
+    background-color: rgb(82, 82, 82);
   }
 }
 
 .Mui-disabled {
-  color: $light-gray !important;
+  color: $light-gray;
 }

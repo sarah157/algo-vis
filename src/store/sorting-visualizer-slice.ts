@@ -30,6 +30,7 @@ interface SortingVisualizerState {
   pivotIndex: number;
   isSorted: boolean;
   isSorting: boolean;
+  mode: "bar" | "scatter";
 }
 
 const initialState: SortingVisualizerState = {
@@ -43,6 +44,7 @@ const initialState: SortingVisualizerState = {
   pivotIndex: -1,
   isSorted: false,
   isSorting: false,
+  mode: "scatter"
 };
 
 
@@ -71,6 +73,9 @@ const sortVisualizerSlice = createSlice({
       state.swapIndices = [];
       state.compareIndices = [];
       state.pivotIndex = -1;
+    },
+    setMode(state, action) {
+      state.mode = action.payload;
     },
     swapValues(state, action) {
       const [i, j] = action.payload;
@@ -172,6 +177,7 @@ export const {
   reset,
   setPivot,
   swapValues,
+  setMode,
   resetIndices,
   stopSorting,
   addSortedIndices,

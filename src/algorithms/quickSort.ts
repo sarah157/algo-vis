@@ -19,7 +19,7 @@ function* quickSortHelper(
   }
 }
 
-function* partition(
+function* partition1(
   array: number[],
   start: number,
   end: number
@@ -49,5 +49,37 @@ function* partition(
   yield { type: SortEventType.sort, indices: [pivotIdx] };
   return pivotIdx;
 }
+function* partition(
+  array: number[],
+  start: number,
+  end: number
+): Generator<SortEvent, number> {
+  
+  let pivot = array[end];
+  let i = start - 1;
+
+  for (let j = start; j < end; j++) {
+    yield { type: SortEventType.pivot, indices: [end] };
+    yield { type: SortEventType.compare, indices: [j] };
+    if (array[j] < pivot) {
+      i++;
+      if (i !== j) {
+        yield { type: SortEventType.swap, indices: [i, j] };
+        swap(array, i, j);
+      }
+    }
+  }
+
+  const pivotIdx = i + 1;
+
+  if (pivotIdx !== end) {
+    yield { type: SortEventType.swap, indices: [i + 1, end] };
+    swap(array, i + 1, end);
+  }
+
+  yield { type: SortEventType.sort, indices: [pivotIdx] };
+  return pivotIdx;
+}
+
 
 export default quickSort;
