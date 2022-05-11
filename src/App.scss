@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto+Mono&family=Roboto:wght@300&display=swap');
-
-$light-gray: rgb(200, 200, 200);
-$controls-background-color: rgb(230, 230, 230);
+$background-color: #f4f1de;
+$primary-color: rgb(100, 124, 190);
 $small-device: 768px;
+$disabled-color: gray;
 
 *,
 ::before,
@@ -11,8 +11,12 @@ $small-device: 768px;
 }
 
 * {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-size: 1em;
+}
+
+body {
+  background-color: $background-color;
 }
 
 div,
@@ -32,42 +36,11 @@ span {
   min-width: 400px;
   margin: 0 auto;
   max-width: 2000px;
-}
-
-.header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 2em;
-
-  &__title {
-    font-size: 2em;
-
-    @media screen and (max-width: $small-device) {
-      font-size: 1.5em;
-    }
-  }
-
-  &__settings {
-    left: 1.5em;
-    color: rgb(88, 88, 88);
-    background-color: white;
-    display: none;
-
-    @media screen and (max-width: $small-device) {
-      display: block;
-      top: 1.3em;
-    }
-  }
-}
-
-.main {
   margin: 0 auto;
   display: flex;
-  padding: 0 1em;
-  gap: 1em;
-  justify-content: space-between;
+  padding: 1em;
+  gap: 2em;
+  justify-content: center;
 
   @media screen and (max-width: $small-device) {
     flex-direction: column;
@@ -75,28 +48,32 @@ span {
   }
 }
 
+.controls-container {
+  align-self: center;
+  border: 1px solid rgb(0, 0, 0);
+
+  @media screen and (max-width: $small-device) {
+    width: 100%;
+  }
+}
+
 .controls {
   display: flex;
-  background-color: transparent;
-  background-color: $controls-background-color;
-  border: 1px solid gainsboro;
-  border-radius: 5px 5px 0 0;
   flex-direction: column;
   justify-content: space-between;
   padding: 2em 2em;
-  height: min-content;
-  align-self: center;
   row-gap: 3em;
 
+  >.disabled {
+    color: $disabled-color;
+  }
 
   @media screen and (max-width: $small-device) {
     width: 100%;
     align-items: center;
     row-gap: 2em;
-
   }
 }
-
 
 button {
   background-color: transparent;
@@ -136,14 +113,19 @@ button {
   justify-content: center;
   width: 100%;
   height: 3em;
-  background-color: gainsboro;
 
   &__label {
     margin-bottom: 0.5em;
   }
 
-  button:hover {
-    opacity: 0.6;
+  &__button {
+    width: 100%;
+    height: 100%;
+    border-top: 1px solid #000;
+
+    &:hover {
+      opacity: 0.9;
+    }
   }
 }
 
@@ -152,14 +134,11 @@ button {
   flex-direction: column;
   width: 200px;
 
-  &.disabled {
-    color: $light-gray;
-  }
-
   &__label {
     display: flex;
     gap: 1em;
     width: 100%;
+    color: inherit;
     align-items: center;
 
     button {
@@ -199,9 +178,9 @@ button {
   align-items: flex-end;
   display: flex;
   justify-content: flex-start;
-  height: 80vh;
+  height: 90vh;
   width: 100%;
-  max-width: 1600px;
+  max-width: 1500px;
 }
 
 .array-bar {
@@ -213,9 +192,7 @@ button {
 
 .array-scatter {
   width: 100%;
-  
 }
-
 
 .slider-label {
   display: flex;
@@ -246,5 +223,9 @@ button {
 }
 
 .Mui-disabled {
-  color: $light-gray;
+  color: $disabled-color;
+}
+
+.MuiList-root {
+  background-color: $background-color !important;
 }

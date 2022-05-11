@@ -44,9 +44,8 @@ const initialState: SortingVisualizerState = {
   pivotIndex: -1,
   isSorted: false,
   isSorting: false,
-  mode: "scatter"
+  mode: "bar",
 };
-
 
 const sortVisualizerSlice = createSlice({
   name: "sortvisualizer",
@@ -171,7 +170,6 @@ const dispatchEvent = async (
 };
 
 const _sleep = async (speed: number) => await sleep(1000 / speed ** 4);
-
 
 export const {
   reset,

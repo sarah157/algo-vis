@@ -12,9 +12,9 @@ import {
   Slider,
 } from "@mui/material";
 
-import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
-import StopRoundedIcon from "@mui/icons-material/StopRounded";
+import StopIcon from "@mui/icons-material/Stop";
 import {
   maxArrayLength,
   maxSpeed,
@@ -76,9 +76,16 @@ const Controls: React.FC = () => {
   return (
     <div className="controls-container" data-testid="sv-controls">
       <div className="controls">
-        <div className="algorithm-controls">
+        <div
+          className={
+            sv.isSorting ? "algorithm-controls disabled" : "algorithm-controls"
+          }
+        >
+          <div className="controls__label">
+            <span>Algorithm</span>
+          </div>
           <FormControl
-            sx={{ width: 200 }}
+            sx={{ width: 200, marginTop: 2 }}
             size="small"
             className="algorithm-controls__form"
           >
@@ -107,7 +114,7 @@ const Controls: React.FC = () => {
             sv.isSorting ? "array-controls disabled" : "array-controls"
           }
         >
-          <div className="array-controls__label">
+          <div className="controls__label array-controls__label">
             <div>Array size</div>
             <button onClick={_reset} disabled={sv.isSorting}>
               <RefreshRoundedIcon
@@ -131,7 +138,7 @@ const Controls: React.FC = () => {
           </div>
         </div>
         <div className="speed-controls">
-          <div className="speed-controls__label">
+          <div className="controls__label">
             <div>Speed</div>
           </div>
           <div className="speed-controls__slider">
@@ -147,13 +154,16 @@ const Controls: React.FC = () => {
             />
           </div>
         </div>
-        <FormControl>
-          <FormLabel id="array-mode">Mode</FormLabel>
+        <div>
+          <div className="controls__label">
+            <span>Mode</span>
+          </div>
+
           <RadioGroup
             onChange={_setMode}
             row
             aria-labelledby="mode"
-            defaultValue="scatter"
+            defaultValue={sv.mode}
             name="mode"
           >
             <FormControlLabel value="bar" control={<Radio />} label="Bar" />
@@ -163,16 +173,25 @@ const Controls: React.FC = () => {
               label="Scatter"
             />
           </RadioGroup>
-        </FormControl>{" "}
-      </div>{" "}
-      <div className="play-controls">
-        <button
-          className="controls-button"
-          onClick={sv.isSorting ? _stopSorting : _startSorting}
-        >
-          {sv.isSorting ? "Stop" : "Sort"}
-        </button>
-      </div>
+        </div>
+       
+      </div> <div className="play-controls">
+          <button
+            // style={{
+            //   backgroundColor: sv.isSorting ? PASTEL_RED : PASTEL_GREEN,
+            // }}
+            className="play-controls__button"
+            onClick={sv.isSorting ? _stopSorting : _startSorting}
+          >
+           {sv.isSorting ? (
+            <StopIcon style={{ fontSize: "50px", }} />
+          ) : (
+            <PlayArrowIcon
+              style={{ fontSize: "50px", }}
+            />
+          )}
+          </button>
+        </div>
     </div>
   );
 };

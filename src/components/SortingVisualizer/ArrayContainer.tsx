@@ -1,13 +1,7 @@
 import { useSelector } from "react-redux";
-import { maxArrayValue } from "../../constants";
+import { COMPARE_COLOR, maxArrayValue, DEFAULT_COLOR, PIVOT_COLOR, SORTED_COLOR, SWAP_COLOR } from "../../constants";
 import { RootState } from "../../store";
 import CircleIcon from "@mui/icons-material/Circle";
-
-const NORMAL_COLOR: string = "#608be0";
-const COMPARE_COLOR: string = "#d1476a";
-const SWAP_COLOR: string = "#dde66a";
-const SORTED_COLOR: string = "#6fd17f";
-const PIVOT_COLOR: string = "violet";
 
 const ArrayContainer: React.FC = () => {
   const sv = useSelector((state: RootState) => state.sortingVisualizer);
@@ -21,7 +15,7 @@ const ArrayContainer: React.FC = () => {
       ? PIVOT_COLOR
       : sv.sortedIndices.includes(index)
       ? SORTED_COLOR
-      : NORMAL_COLOR;
+      : DEFAULT_COLOR;
     return color;
   };
 
@@ -44,7 +38,7 @@ const ArrayContainer: React.FC = () => {
             <div
               className="array-scatter"
               style={{
-                height: `${(value / maxArrayValue) * 90}%`,
+                height: `${(value / maxArrayValue) * 100}%`,
               }}
               key={index}
             >
