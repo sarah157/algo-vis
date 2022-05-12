@@ -52,6 +52,7 @@ const sortVisualizerSlice = createSlice({
   initialState: initialState,
   reducers: {
     reset(state) {
+      state.isSorted = false;
       state.sortedIndices = [];
       state.swapIndices = [];
       state.compareIndices = [];
