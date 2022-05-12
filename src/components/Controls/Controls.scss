@@ -1,0 +1,39 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.controls-container {
+    min-width: 275px;
+    @include md-max {
+        width: 100%;
+    }
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.5em;
+    row-gap: 3em;
+    width: 100%;
+    border-right: 1px solid black;
+
+    > .disabled {
+        color: $muted-color;
+        border-color: $muted-color;
+
+        button {
+            background-color: $muted-color;
+        }
+    }
+
+    @include md-max {
+        width: 100%;
+        row-gap: 2em;
+        border-right: none;
+        border-bottom: 1px solid black;
+    }
+}
+
+.controls__item {
+    width: 100%;
+}

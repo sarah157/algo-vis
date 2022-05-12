@@ -1,6 +1,14 @@
 @import "../../../styles/variables";
 
 // reference: https://www.w3schools.com/howto/howto_js_rangeslider.asp
+
+.slider-container {
+    label {
+        display: block;
+        height: 1.5em;
+    }
+}
+
 .slider {
     -webkit-appearance: none;
     appearance: none;

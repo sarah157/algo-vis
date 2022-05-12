@@ -11,7 +11,7 @@ function* quickSortHelper(
   end: number
 ): Generator<SortEvent> {
   if (start >= end) {
-    yield { type: SortEventType.sort, indices: [start] };
+    yield { type: SortEventType.addToSorted, indices: [start] };
   } else {
     const p = yield* partition(array, start, end);
     yield* quickSortHelper(array, start, p - 1);
@@ -28,7 +28,7 @@ function* partition1(
   let i = start - 1;
 
   for (let j = start; j < end; j++) {
-    yield { type: SortEventType.pivot, indices: [end] };
+    yield { type: SortEventType.setPivot, indices: [end] };
     yield { type: SortEventType.compare, indices: [j] };
     if (array[j] < pivot) {
       i++;
@@ -46,7 +46,7 @@ function* partition1(
     swap(array, i + 1, end);
   }
 
-  yield { type: SortEventType.sort, indices: [pivotIdx] };
+  yield { type: SortEventType.addToSorted, indices: [pivotIdx] };
   return pivotIdx;
 }
 function* partition(
@@ -59,7 +59,7 @@ function* partition(
   let i = start - 1;
 
   for (let j = start; j < end; j++) {
-    yield { type: SortEventType.pivot, indices: [end] };
+    yield { type: SortEventType.setPivot, indices: [end] };
     yield { type: SortEventType.compare, indices: [j] };
     if (array[j] < pivot) {
       i++;
@@ -77,7 +77,7 @@ function* partition(
     swap(array, i + 1, end);
   }
 
-  yield { type: SortEventType.sort, indices: [pivotIdx] };
+  yield { type: SortEventType.addToSorted, indices: [pivotIdx] };
   return pivotIdx;
 }
 

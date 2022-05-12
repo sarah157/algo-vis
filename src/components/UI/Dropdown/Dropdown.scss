@@ -4,6 +4,11 @@
 .dropdown-container {
   position: relative;
   font-size: 16px;
+
+  label {
+    display: block;
+    height: 2em;
+  }
 }
 
 .dropdown {

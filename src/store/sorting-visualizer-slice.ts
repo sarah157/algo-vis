@@ -134,7 +134,7 @@ export const startSorting = createAsyncThunk<void, void, { state: RootState }>(
       sv = getState().sortingVisualizer;
     }
 
-    dispatch(setIsSorted(true));
+    if (!event) dispatch(setIsSorted(true)); // loop ended because user clicked stop
     dispatch(resetIndices());
   }
 );
@@ -154,13 +154,13 @@ const dispatchEvent = async (
     case SortEventType.compare:
       dispatch(setCompareIndices(event.indices));
       break;
-    case SortEventType.sort:
+    case SortEventType.addToSorted:
       dispatch(addSortedIndices(event.indices));
       break;
-    case SortEventType.pivot:
+    case SortEventType.setPivot:
       dispatch(setPivot(event.indices[0]));
       break;
-    case SortEventType.set:
+    case SortEventType.changeValue:
       dispatch(setSwapIndices(event.indices));
       await _sleep(speed);
       dispatch(changeValue([event.indices[0], event.value!]));

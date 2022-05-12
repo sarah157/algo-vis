@@ -2,25 +2,29 @@ import "./Slider.scss";
 
 interface SliderProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  max?: number;
-  min?: number;
+  max: number;
+  min: number;
   name?: string;
   disabled?: boolean;
-  ["aria-label"]?: string;
+  label?: string;
   value?: number;
   step?: number;
   className?: string;
+  id?: string;
 }
 
 const Slider: React.FC<SliderProps> = (props) => {
-  const className = props.disabled ? "slider disabled " : "slider ";
-
+  const baseClassName = props.disabled ? "slider disabled " : "slider ";
+  const { label, ...inputProps } = props;
   return (
-    <input
-      {...props}
-      type="range"
-      className={className + props.className}
-    ></input>
+    <div className="slider-container">
+     {label && props.id && <label htmlFor={props.id}>{label}</label>}
+      <input
+        {...inputProps}
+        type="range"
+        className={props.className ? baseClassName + props.className : baseClassName}
+      ></input>
+    </div>
   );
 };
 

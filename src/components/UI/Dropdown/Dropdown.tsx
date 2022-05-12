@@ -13,9 +13,11 @@ interface DropdownProps {
   activeOptionValue: string,
   options: Option[]
   disabled?: boolean;
+  label?: string;
+  id?: string;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ onSelect, activeOptionValue, disabled, options}) => {
+const Dropdown: React.FC<DropdownProps> = ({ onSelect, label, id, activeOptionValue, disabled, options}) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null)
     useClickOutside(dropdownRef, () => setIsOpen(false))
@@ -34,14 +36,18 @@ const Dropdown: React.FC<DropdownProps> = ({ onSelect, activeOptionValue, disabl
       const option = options.find(op => op.value === activeOptionValue) || options[0];
       return option.label;
     }
+   
+      
 
     return ( 
-        <div ref={dropdownRef} className="dropdown-container">
+        <div ref={dropdownRef} className="dropdown-container"> 
+        {label &&  <label htmlFor={id}>{label}</label>}
         <button
           aria-expanded={isOpen}
           onClick={handleToggle}
           className="dropdown__toggle"
           disabled={disabled}
+          id={id}
           >
           <span>{getSelectedOptionLabel()}</span>
           <ChevronRightRounded  className={isOpen ? "dropdown__chevron up":  "dropdown__chevron down" }/>

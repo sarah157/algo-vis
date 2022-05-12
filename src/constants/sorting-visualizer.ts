@@ -9,9 +9,9 @@ export enum SortAlgorithm {
 export enum SortEventType {
   swap,
   compare,
-  sort,
-  set,
-  pivot
+  addToSorted,
+  changeValue,
+  setPivot
 }
 
 export interface SortEvent {
