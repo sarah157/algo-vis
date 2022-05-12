@@ -25,7 +25,7 @@ const ArrayContainer: React.FC = () => {
       {sv.array.map((value: number, index: number) => (
         <div
           style={{
-            height: `${(value / maxArrayValue) * 100}%`,
+            height: `${(value / maxArrayValue) * 90}%`,
           }}
           className={
             "array-item " +

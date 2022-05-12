@@ -2,22 +2,63 @@
 @import "../../styles/mixins";
 
 .controls-container {
-    min-width: 275px;
+
+    background-color: $background-color;
+    display: flex;
+    padding: 0 1em 0.5em;
+    overflow-y: auto;
+    overflow-x: hidden;
+
     @include md-max {
         width: 100%;
+        flex-direction: column;
+        position: absolute;
+        top: 2em;
+        left: 0;
+        z-index: 10;
+        border-right: none;
+        border-bottom: 1px solid black;
     }
+
 }
 
 .controls {
     display: flex;
+    align-self: center;
     flex-direction: column;
     justify-content: space-between;
-    padding: 1.5em;
-    row-gap: 3em;
+    background-color: $background-color;
     width: 100%;
-    border-right: 1px solid black;
+    width: 300px;
+    gap: 1.5em;
 
-    > .disabled {
+    @include md-max {
+        transition: all 0.3s ease-in-out;
+        align-self: center;
+    }
+
+    &__toggle {
+        text-align: center;
+        margin-left: auto;
+        width: min-content;
+        height: 2.2em;
+        font-size: 16px;
+    }
+
+    &.closed {
+        align-self: flex-start;
+        opacity: 0;
+        height: 0;
+        transition: height 0.3s ease-in-out;
+        border: none;
+
+        .controls__item {
+            display: none;
+
+        }
+    }
+
+    >.disabled {
         color: $muted-color;
         border-color: $muted-color;
 
@@ -28,12 +69,11 @@
 
     @include md-max {
         width: 100%;
-        row-gap: 2em;
-        border-right: none;
-        border-bottom: 1px solid black;
-    }
-}
 
-.controls__item {
-    width: 100%;
+    }
+
+    &__item {
+        background-color: inherit;
+        margin-bottom: 1em;
+    }
 }
