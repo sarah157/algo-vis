@@ -1,0 +1,29 @@
+@import "../../../styles/_variables";
+@import "../../../styles/_mixins";
+
+.button-controls {
+    display: flex;
+    gap: 0.5em;
+
+    svg {
+        font-size: 2rem;
+    }
+
+    button {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.start-button {
+    @include button($success-color);
+}
+
+.stop-button {
+    @include button($danger-color);
+}
+
+.reset-button {
+    @include button($secondary-color);
+    width: 30%;
+}

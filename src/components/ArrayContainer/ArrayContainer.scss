@@ -1,0 +1,48 @@
+@import "../../styles/variables";
+
+.array-container {
+    align-items: flex-end;
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 1500px;
+    height: 90vh;
+}
+
+.array-item {
+    width: 100%;
+    margin: 0.2%;
+    transition: height 0.1s ease-in-out;
+
+    &.default {
+        background-color: $default-color;
+        color: $default-color;
+    }
+
+    &.compare {
+        background-color: $compare-color;
+        color: $compare-color;
+
+    }
+
+    &.swap {
+        background-color: $swap-color;
+        color: $swap-color;
+
+    }
+
+    &.pivot {
+        background-color: $pivot-color;
+        color: $pivot-color;
+    }
+
+    &.sorted {
+        background-color: $sorted-color;
+        color: $sorted-color;
+    }
+
+    &.scatter {
+        background-color: transparent;
+    }
+
+}

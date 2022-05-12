@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto+Mono&family=Roboto:wght@300&display=swap');
+@import './variables';
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: $font-family;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  background-color: $background-color;
+  box-sizing: border-box;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
+div,
+body,
+main,
+header,
+h1,
+h2,
+h3,
+p,
+fieldset,
+legend,
+label,
+input,
+button,
+span {
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+input, select {
+    outline: none;
+}
+
+button {
+    background-color: transparent;
+    outline: none;
+
+    &:hover {
+        cursor: pointer;
+        &:disabled {
+            background-color: $muted-color;
+        }
+    }
+    &:disabled {
+        background-color: $muted-color;
+    }
+}
+
+input {
+    accent-color: $default-color;
+}
+
+#root {
+  height: 100%;
+}
+
+.App {
+    height: 100%;
+}
+

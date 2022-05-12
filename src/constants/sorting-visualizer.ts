@@ -25,14 +25,9 @@ export const initialArrayLength = 35;
 export const initialSpeed = 2;
 export const maxArrayLength = 100;
 export const minArrayLength = 10;
+export const arrayLengthStep = 1;
 export const maxArrayValue = 50;
 export const minArrayValue = 5;
-export const maxSpeed = 5;
+export const maxSpeed = 100;
 export const minSpeed = 1;
-
-
-export const DEFAULT_COLOR: string = "#003049";
-export const COMPARE_COLOR: string = "#e76f51";
-export const SWAP_COLOR: string = "#ffc300";
-export const SORTED_COLOR: string = "#2a9d8f";
-export const PIVOT_COLOR: string = "#8f2d56";
+export const speedStep = 1;

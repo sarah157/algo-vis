@@ -1,0 +1,45 @@
+@import "../../../styles/variables";
+
+// reference: https://www.w3schools.com/howto/howto_js_rangeslider.asp
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    background: #898989;
+    outline: none;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 17px;
+    height: 17px;
+    background: $primary-color;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    margin-bottom: 20px;
+    width: 17px;
+    height: 17px;
+    background: $primary-color;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.slider.disabled::-webkit-slider-thumb {
+    background: $muted-color;
+}
+ 
+.slider.disabled::-moz-range-thumb  {
+    background: $muted-color;
+}
+

@@ -1,0 +1,67 @@
+@import "../../../styles/variables";
+@import "../../../styles/mixins";
+
+.dropdown-container {
+  position: relative;
+  font-size: 16px;
+}
+
+.dropdown {
+  padding: 0.5em 0.25em;
+  position: absolute;
+  top: 2.2em;
+  z-index: 10;
+  background-color: $secondary-color;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 5px;
+
+  &.closed {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    padding: 0;
+  }
+
+  &__toggle {
+    @include button($secondary-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 2em;
+    font-family: $font-family;
+    font-size: 16px;
+    padding: 0.25em 0.5em;
+    ;
+  }
+
+  &__item {
+    @include button($secondary-color);
+    padding: 0.5em;
+    text-align: start;
+    font-size: 16px;
+
+    &.active {
+      @include button($primary-color);
+      color: white;
+    }
+  }
+
+  &__chevron {
+    font-size: 1rem;
+
+    &.up {
+      transform: rotate(-90deg);
+      transition: all 0.2s ease-in-out;
+
+    }
+
+    &.down {
+      transform: rotate(90deg);
+      transition: all 0.2s ease-in-out;
+
+    }
+  }
+}

@@ -1,17 +1,15 @@
-import "./App.scss";
-import SortingVisualizer from "./components/SortingVisualizer/SortingVisualizer";
+import Header from "./components/Layout/Header/Header";
+import Main from "./components/Layout/Main/Main";
+import SortingVisualizer from "./pages/SortingVisualizer";
+import "./styles/_global.scss";
 
 function App() {
   return (
-    <div>
-      <header>
-        <nav>
-          <div>Sorting</div>
-        </nav>
-      </header>
-      <main className="main">
+    <div className="App">
+      <Header />
+      <Main>
         <SortingVisualizer />
-      </main>
+      </Main>
     </div>
   );
 }
