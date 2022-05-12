@@ -14,6 +14,7 @@ import {
   minArrayValue,
   maxArrayValue,
   initialSpeed,
+  Mode,
 } from "../constants";
 import { RootState } from ".";
 
@@ -30,7 +31,7 @@ interface SortingVisualizerState {
   pivotIndex: number;
   isSorted: boolean;
   isSorting: boolean;
-  mode: "bar" | "scatter";
+  mode: Mode;
 }
 
 const initialState: SortingVisualizerState = {
@@ -44,7 +45,7 @@ const initialState: SortingVisualizerState = {
   pivotIndex: -1,
   isSorted: false,
   isSorting: false,
-  mode: "bar",
+  mode: Mode.bar,
 };
 
 const sortVisualizerSlice = createSlice({
@@ -66,7 +67,7 @@ const sortVisualizerSlice = createSlice({
       const [index, value] = action.payload;
       state.array[index] = value;
     },
-    setPivot(state, action) {
+    setPivot(state, action: PayloadAction<number>) {
       state.pivotIndex = action.payload;
     },
     resetIndices(state) {
@@ -74,10 +75,10 @@ const sortVisualizerSlice = createSlice({
       state.compareIndices = [];
       state.pivotIndex = -1;
     },
-    setMode(state, action) {
+    setMode(state, action: PayloadAction<Mode>) {
       state.mode = action.payload;
     },
-    swapValues(state, action) {
+    swapValues(state, action: PayloadAction<number[]>) {
       const [i, j] = action.payload;
       swap(state.array, i, j);
     },
@@ -133,7 +134,7 @@ export const startSorting = createAsyncThunk<void, void, { state: RootState }>(
       sv = getState().sortingVisualizer;
     }
 
-    if (!event) dispatch(setIsSorted(true));
+    dispatch(setIsSorted(true));
     dispatch(resetIndices());
   }
 );

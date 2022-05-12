@@ -8,6 +8,7 @@ import {
   maxSpeed,
   minArrayLength,
   minSpeed,
+  Mode,
   SortAlgorithm,
 } from "../../constants";
 
@@ -45,7 +46,7 @@ const SortControls: React.FC = () => {
   const _setSpeed = (speed: number) => dispatch(setSpeed(speed));
   const _stopSorting = () => dispatch(stopSorting());
   const _startSorting = () => dispatch(startSorting());
-  const _setMode = (mode: string) => dispatch(setMode(mode));
+  const _setMode = (mode: Mode) => dispatch(setMode(mode));
 
   const handleChangeArrayLength = (e: ChangeEvent<HTMLInputElement>) => {
     const len: number = parseInt(e.target.value);
@@ -56,7 +57,7 @@ const SortControls: React.FC = () => {
 
   const handleChangeMode = (e: React.FormEvent<HTMLFieldSetElement>) => {
     let inputEl = e.target as HTMLInputElement;
-    _setMode(inputEl.value);
+    _setMode(inputEl.value as Mode);
   };
 
   const handleChangeAlgorithm = (selected: string) => {
@@ -130,7 +131,7 @@ const SortControls: React.FC = () => {
                 name="mode"
                 value="bar"
                 className="radio"
-                checked={sv.mode === "bar"}
+                checked={sv.mode === Mode.bar}
               />
               Bars
             </label>
@@ -140,7 +141,7 @@ const SortControls: React.FC = () => {
                 name="mode"
                 value="scatter"
                 className="radio"
-                checked={sv.mode === "scatter"}
+                checked={sv.mode === Mode.scatter}
               />
               Scatter
             </label>

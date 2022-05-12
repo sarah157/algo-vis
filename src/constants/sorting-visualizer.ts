@@ -21,6 +21,12 @@ export interface SortEvent {
   pivot?: number,
 }
 
+export enum Mode {
+  bar = "bar",
+  scatter = "scatter"
+}
+
+
 export const initialArrayLength = 35;
 export const initialSpeed = 2;
 export const maxArrayLength = 100;
