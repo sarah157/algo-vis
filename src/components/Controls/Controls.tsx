@@ -43,13 +43,14 @@ const Controls: React.FC<ControlsProps> = ({ disabled, elements }) => {
   return (
     <div ref={isMediumMax ? containerRef : null} className="controls-container">
       {isMediumMax && (
-        <button className="controls__toggle" onClick={toggleShow}>
+        <button className="controls__toggle" onClick={toggleShow} data-testid="controls-toggle">
           {show ? <Close  /> : "Settings" }
         </button>
       )}
-      <div className={show ? "controls" : "controls closed"}>
-        {elements.map((el) => (
+      <div className={show ? "controls" : "controls closed"} data-testid="controls">
+        {elements.map((el, i) => (
           <div
+          key={i}
             className={
               disabled && el.disabled
                 ? "controls__item disabled"

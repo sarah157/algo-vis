@@ -1,5 +1,7 @@
+import { Routes, Route } from "react-router-dom";
 import Header from "./components/Layout/Header/Header";
 import Main from "./components/Layout/Main/Main";
+import PathfindingVisualizer from "./pages/PathfindingVisualizer";
 import SortingVisualizer from "./pages/SortingVisualizer";
 import "./styles/_global.scss";
 
@@ -8,7 +10,10 @@ function App() {
     <div className="App">
       <Header />
       <Main>
-        <SortingVisualizer />
+        <Routes>
+          <Route path="/sorting" element={<SortingVisualizer />}  />
+          <Route path="/" element={<PathfindingVisualizer />}  />
+        </Routes>
       </Main>
     </div>
   );

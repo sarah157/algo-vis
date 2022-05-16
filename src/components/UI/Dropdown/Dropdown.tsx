@@ -23,10 +23,10 @@ const Dropdown: React.FC<DropdownProps> = ({ onSelect, label, id, activeOptionVa
     useClickOutside(dropdownRef, () => setIsOpen(false))
 
     const handleSelectOption = (e: any) => {
-        setIsOpen(false);
-        onSelect(e.target.value)
+      setIsOpen(false);
+      onSelect(e.target.value)
       };
-    
+  
     const handleToggle = () => {
       if (!disabled) {
         setIsOpen(prev => !prev);
@@ -36,8 +36,7 @@ const Dropdown: React.FC<DropdownProps> = ({ onSelect, label, id, activeOptionVa
       const option = options.find(op => op.value === activeOptionValue) || options[0];
       return option.label;
     }
-   
-      
+
 
     return ( 
         <div ref={dropdownRef} className="dropdown-container"> 
@@ -57,8 +56,7 @@ const Dropdown: React.FC<DropdownProps> = ({ onSelect, label, id, activeOptionVa
             <button
             key={option.value}
             aria-selected={(option.value) === activeOptionValue}
-            onClick={handleSelectOption}
-            onBlur={()=>setIsOpen(false)}
+            onMouseDown={handleSelectOption}
             className={option.value === activeOptionValue ? "dropdown__item active" : "dropdown__item"}
             role="option"
             value={option.value}

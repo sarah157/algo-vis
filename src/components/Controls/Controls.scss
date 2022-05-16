@@ -2,7 +2,7 @@
 @import "../../styles/mixins";
 
 .controls-container {
-
+position: relative;
     background-color: $background-color;
     display: flex;
     padding: 0 1em 0.5em;
