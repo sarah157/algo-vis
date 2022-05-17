@@ -1,5 +1,15 @@
 .nav {
-    position: fixed;
+    position: absolute;
+    top: 0.75em;
+    left: 1.5em;
     width: 100px;
-    background-color: red;
+    z-index: 10;
+}
+
+.navbar {
+    align-self: center;
+    min-height: 2em; 
+    display: flex;
+    justify-content: start;
+    align-items: center;
 }
