@@ -1,5 +1,5 @@
-import { SortEvent, SortEventType } from "../constants";
-import { swap } from "../helpers";
+import { SortEvent, SortEventType } from "../../constants";
+import { swap } from "../../helpers";
 
 function* bubbleSort(array: number[]): Generator<SortEvent> {
   const arr = [...array];

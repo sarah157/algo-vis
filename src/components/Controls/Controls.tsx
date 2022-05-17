@@ -8,12 +8,12 @@ export type ControlElement = {
   disabled?: boolean;
 };
 
-interface ControlsProps {
+type ControlsProps = {
   disabled: boolean;
   elements: ControlElement[];
 }
 
-const Controls: React.FC<ControlsProps> = ({ disabled, elements }) => {
+const Controls = ({ disabled, elements }: ControlsProps) => {
   const [show, setShow] = useState(false);
   const { width } = useWindowSize();
   const [isMediumMax, setIsMediumMax] = useState(false);
@@ -41,13 +41,13 @@ const Controls: React.FC<ControlsProps> = ({ disabled, elements }) => {
   }, [width]);
 
   return (
-    <div ref={isMediumMax ? containerRef : null} className="controls-container">
+    <div ref={isMediumMax ? containerRef : null} className={`controls-container${!show ? " closed" : ""}`}>
       {isMediumMax && (
         <button className="controls__toggle" onClick={toggleShow} data-testid="controls-toggle">
           {show ? <Close  /> : "Settings" }
         </button>
       )}
-      <div className={show ? "controls" : "controls closed"} data-testid="controls">
+    {show &&  <div className={`controls`} data-testid="controls">
         {elements.map((el, i) => (
           <div
           key={i}
@@ -60,7 +60,7 @@ const Controls: React.FC<ControlsProps> = ({ disabled, elements }) => {
             {el.element}
           </div>
         ))}
-      </div>
+      </div>}
     </div>
   );
 };

@@ -1,10 +1,10 @@
 import "./Main.scss";
 
-interface MainProps {
+type MainProps = {
   children: JSX.Element;
 }
 
-const Main: React.FC<MainProps> = (props) => {
+const Main = (props: MainProps) => {
   return <main className="main">{props.children}</main>;
 };
 

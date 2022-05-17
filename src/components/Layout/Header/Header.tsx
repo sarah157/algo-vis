@@ -1,6 +1,7 @@
+import "./Header.scss"
 const Header = () => (
     <header >
-    <nav>
+    <nav className="nav">
       <div>Sorting</div>
     </nav>
   </header>

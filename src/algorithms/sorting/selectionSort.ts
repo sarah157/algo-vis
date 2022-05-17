@@ -1,5 +1,5 @@
-import { SortEvent, SortEventType } from "../constants";
-import { swap } from "../helpers";
+import { SortEvent, SortEventType } from "../../constants";
+import { swap } from "../../helpers";
 
 function* selectionSort(array: number[]): Generator<SortEvent> {
   const len = array.length;

@@ -1,5 +1,5 @@
-import { SortEvent, SortEventType } from "../constants";
-import { swap } from "../helpers";
+import { SortEvent, SortEventType } from "../../constants";
+import { swap } from "../../helpers";
 
 function* quickSort(array: number[]): Generator<SortEvent> {
   yield* quickSortHelper(array, 0, array.length - 1);

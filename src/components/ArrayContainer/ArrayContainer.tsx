@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
-import { maxArrayValue } from "../../constants";
+import { maxArrayValue, Mode } from "../../constants";
 import { RootState } from "../../store";
 import CircleIcon from "@mui/icons-material/Circle";
 import "./ArrayContainer.scss"
 
-const ArrayContainer: React.FC = () => {
+const ArrayContainer = () => {
   const sv = useSelector((state: RootState) => state.sortingVisualizer);
 
   const getColorClassName = (index: number): string => {
@@ -24,17 +24,11 @@ const ArrayContainer: React.FC = () => {
     <div className="array-container">
       {sv.array.map((value: number, index: number) => (
         <div
-          style={{
-            height: `${(value / maxArrayValue) * 90}%`,
-          }}
-          className={
-            "array-item " +
-            (sv.mode === "bar" ? "bar " : "scatter ") +
-            getColorClassName(index)
-          }
+          style={{height: `${(value / maxArrayValue) * 90}%`}}
+          className={`array-item ${sv.mode} ${getColorClassName(index)}`}
         >
-          {sv.mode == "bar" && <div key={index}></div>}
-          {sv.mode === "scatter" && <CircleIcon style={{ width: "100%" }} />}
+          {sv.mode === Mode.bar && <div key={index}></div>}
+          {sv.mode === Mode.scatter && <CircleIcon style={{ width: "100%" }} />}
         </div>
       ))}
 

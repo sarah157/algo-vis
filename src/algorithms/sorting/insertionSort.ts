@@ -1,5 +1,5 @@
-import { SortEventType, SortEvent } from "../constants";
-import { swap } from "../helpers";
+import { SortEventType, SortEvent } from "../../constants";
+import { swap } from "../../helpers";
 
 function* insertionSort(array: number[]): Generator<SortEvent> {
   for (let i = 0; i < array.length; i++) {

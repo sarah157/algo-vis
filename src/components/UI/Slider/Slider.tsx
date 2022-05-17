@@ -13,7 +13,7 @@ interface SliderProps {
   id?: string;
 }
 
-const Slider: React.FC<SliderProps> = (props) => {
+const Slider = (props: SliderProps) => {
   const baseClassName = props.disabled ? "slider disabled " : "slider ";
   const { label, ...inputProps } = props;
   return (

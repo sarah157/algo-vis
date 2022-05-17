@@ -1,19 +1,19 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import Controls, { ControlElement } from "../components/Controls/Controls";
 
-const test1: ControlElement = {
+const enabledEl: ControlElement = {
   element: <div data-testid="test">test1</div>,
   disabled: true,
 };
 
-const test2: ControlElement = {
+const disabledEl: ControlElement = {
   element: <div>test2</div>,
   disabled: false,
 };
 
 describe("<Controls />", () => {
   beforeEach(() => {
-    render(<Controls disabled={false} elements={[test1, test2]} />);
+    render(<Controls disabled={false} elements={[enabledEl, disabledEl]} />);
   });
 
   it("should render all elements", () => {
@@ -33,7 +33,7 @@ describe("<Controls /> on smaller than medium devices", () => {
 
     beforeEach(async () => {
       resizeToLessThanMed();
-      render(<Controls disabled={false} elements={[test1, test2]} />);
+      render(<Controls disabled={false} elements={[enabledEl, disabledEl]} />);
       toggleButton = await screen.findByTestId("controls-toggle");
     });
 
@@ -50,40 +50,40 @@ describe("<Controls /> on smaller than medium devices", () => {
     });
   });
 
-  it("should hide controls if clicked outside controls when it is showing", async () => {
+  it("should close if clicked outside Controls compoenent when showing", async () => {
     render(
       <div>
         <p>testOutsideClick</p>
-        <Controls disabled={false} elements={[test1, test2]} />;
+        <Controls disabled={false} elements={[enabledEl, disabledEl]} />;
       </div>
     );
-    fireEvent.click(screen.getByText("Settings"));
-    expect(screen.getByTestId("CloseIcon")).toBeInTheDocument;
-    fireEvent.click(screen.getByText("testOutsideClick"));
-    expect(screen.getByText("Settings")).toBeInTheDocument;
+    fireEvent.click(screen.getByText("Settings")); // open controls panel
+    expect(screen.getByTestId("CloseIcon")).toBeInTheDocument; // controls open
+    fireEvent.click(screen.getByText("testOutsideClick")); // outside click
+    expect(screen.getByText("Settings")).toBeInTheDocument; // controls clsoed
   });
 });
 
 describe("<Controls /> disabled prop", () => {
   describe("disabled is true", () => {
     it("should set all elements as not disabled", () => {
-      render(<Controls disabled={false} elements={[test1, test2]} />);
+      render(<Controls disabled={false} elements={[enabledEl, disabledEl]} />);
       const controls = screen.getByTestId("controls");
-      const [test1El, test2El] = controls.children;
-      expect(test1El.className).not.toContain("disabled");
-      expect(test2El.className).not.toContain("disabled");
+      const [enabledElement, disabledElement] = controls.children;
+      expect(enabledElement.className).not.toContain("disabled");
+      expect(disabledElement.className).not.toContain("disabled");
     });
   });
 
   describe("disabled is false", () => {
     it("should only set elements with disabled=true tp disabled", () => {
-      render(<Controls disabled={true} elements={[test1, test2]} />);
+      render(<Controls disabled={true} elements={[enabledEl, disabledEl]} />);
       const controls = screen.getByTestId("controls");
       expect(controls).toBeInTheDocument;
       expect(controls.childElementCount).toBe(2);
-      const [test1El, test2El] = controls.children;
-      expect(test1El.className).toContain("disabled");
-      expect(test2El.className).not.toContain("disabled");
+      const [enabledElement, disabledElement] = controls.children;
+      expect(enabledElement.className).toContain("disabled");
+      expect(disabledElement.className).not.toContain("disabled");
     });
   });
 });

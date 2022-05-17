@@ -2,12 +2,11 @@
 @import "../../styles/mixins";
 
 .controls-container {
-position: relative;
+    position: relative;
     background-color: $background-color;
     display: flex;
     padding: 0 1em 0.5em;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow-y: hidden;
 
     @include md-max {
         width: 100%;
@@ -18,8 +17,15 @@ position: relative;
         z-index: 10;
         border-right: none;
         border-bottom: 1px solid black;
+       
+        height: 60%;
+    transition: all 0.3s ease-in-out;
+      
+        &.closed {
+            height: 50px;    transition: all 0.3s ease-in-out;
+         
+        }
     }
-
 }
 
 .controls {
@@ -28,13 +34,13 @@ position: relative;
     flex-direction: column;
     justify-content: space-between;
     background-color: $background-color;
-    width: 100%;
     width: 300px;
     gap: 1.5em;
 
     @include md-max {
         transition: all 0.3s ease-in-out;
-        align-self: center;
+        height: 100%;
+        margin-top: 10px;
     }
 
     &__toggle {
@@ -43,19 +49,12 @@ position: relative;
         width: min-content;
         height: 2.2em;
         font-size: 16px;
+        opacity: 100% !important;
     }
 
-    &.closed {
-        align-self: flex-start;
-        opacity: 0;
-        height: 0;
-        transition: height 0.3s ease-in-out;
-        border: none;
-
-        .controls__item {
-            display: none;
-
-        }
+    &__item {
+        background-color: inherit;
+        margin-bottom: 1em;
     }
 
     >.disabled {
@@ -67,13 +66,4 @@ position: relative;
         }
     }
 
-    @include md-max {
-        width: 100%;
-
-    }
-
-    &__item {
-        background-color: inherit;
-        margin-bottom: 1em;
-    }
 }

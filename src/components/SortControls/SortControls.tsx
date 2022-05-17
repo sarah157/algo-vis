@@ -36,7 +36,7 @@ const algorithmOptions: Option[] = [
   { value: SortAlgorithm.mergeSort, label: "Merge Sort" },
 ];
 
-const SortControls: React.FC = () => {
+const SortControls = () => {
   const sv = useSelector((state: RootState) => state.sortingVisualizer);
   const dispatch = useDispatch<AppDispatch>();
 

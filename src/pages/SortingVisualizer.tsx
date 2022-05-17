@@ -1,7 +1,7 @@
 import SortControls from "../components/SortControls/SortControls";
 import ArrayContainer from "../components/ArrayContainer/ArrayContainer";
 
-const SortingVisualizer: React.FC = () => {
+const SortingVisualizer = () => {
   return (
     <>
       <SortControls />

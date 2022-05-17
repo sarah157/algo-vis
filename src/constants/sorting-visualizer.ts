@@ -14,7 +14,7 @@ export enum SortEventType {
   setPivot
 }
 
-export interface SortEvent {
+export type SortEvent = {
   type: SortEventType;
   indices: number[];
   value?: number;

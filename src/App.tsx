@@ -11,7 +11,7 @@ function App() {
       <Header />
       <Main>
         <Routes>
-          <Route path="/sorting" element={<SortingVisualizer />}  />
+          <Route path="/s" element={<SortingVisualizer />}  />
           <Route path="/" element={<PathfindingVisualizer />}  />
         </Routes>
       </Main>
