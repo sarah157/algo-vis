@@ -68,11 +68,15 @@
         margin-bottom: 1em;
     }
 
-    >.disabled {
+    > .disabled {
         color: $muted-color;
         border-color: $muted-color;
 
         button {
+            background-color: $muted-color;
+        }
+
+        input {
             background-color: $muted-color;
         }
     }

@@ -27,14 +27,8 @@ import Slider from "../UI/Slider/Slider";
 import StartStopButton from "../UI/StartStopButton/StartStopButton";
 import Dropdown, { Option } from "../UI/Dropdown/Dropdown";
 import Controls, { ControlElement } from "../Controls/Controls";
-
-const algorithmOptions: Option[] = [
-  { value: SortAlgorithm.bubbleSort, label: "Bubble Sort" },
-  { value: SortAlgorithm.insertionSort, label: "Insertion Sort" },
-  { value: SortAlgorithm.selectionSort, label: "Selection Sort" },
-  { value: SortAlgorithm.quickSort, label: "Quick Sort" },
-  { value: SortAlgorithm.mergeSort, label: "Merge Sort" },
-];
+import RadioGroup from "../UI/RadioGroup/RadioGroup";
+import { capitalize } from "../../helpers";
 
 const SortControls = () => {
   const sv = useSelector((state: RootState) => state.sortingVisualizer);
@@ -42,7 +36,8 @@ const SortControls = () => {
 
   const _reset = () => dispatch(reset());
   const _setArrayLength = (len: number) => dispatch(setArrayLength(len));
-  const _setAlgorithm = (algorithm: SortAlgorithm) => dispatch(setAlgorithm(algorithm));
+  const _setAlgorithm = (algorithm: SortAlgorithm) =>
+    dispatch(setAlgorithm(algorithm));
   const _setSpeed = (speed: number) => dispatch(setSpeed(speed));
   const _stopSorting = () => dispatch(stopSorting());
   const _startSorting = () => dispatch(startSorting());
@@ -55,9 +50,8 @@ const SortControls = () => {
     _reset();
   };
 
-  const handleChangeMode = (e: React.FormEvent<HTMLFieldSetElement>) => {
-    let inputEl = e.target as HTMLInputElement;
-    _setMode(inputEl.value as Mode);
+  const handleChangeMode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    _setMode(e.target.value as Mode);
   };
 
   const handleChangeAlgorithm = (selected: string) => {
@@ -68,6 +62,11 @@ const SortControls = () => {
   const handleChangeSpeed = (e: ChangeEvent<HTMLInputElement>) => {
     _setSpeed(parseInt(e.target.value));
   };
+
+  const algorithmOptions: Option[] = Object.keys(SortAlgorithm).map((a) => {
+    let name = a.split("Sort")[0];
+    return { value: a, label: `${capitalize(name)} Sort` };
+  });
 
   const algorithmDropdown: ControlElement = {
     element: (
@@ -80,7 +79,7 @@ const SortControls = () => {
         label="Algorithm"
       />
     ),
-    disabled: true,
+    disableable: true,
   };
 
   const arraySizeSlider: ControlElement = {
@@ -96,7 +95,7 @@ const SortControls = () => {
         onChange={handleChangeArrayLength}
       />
     ),
-    disabled: true,
+    disableable: true,
   };
 
   const speedSlider: ControlElement = {
@@ -111,41 +110,21 @@ const SortControls = () => {
         onChange={handleChangeSpeed}
       ></Slider>
     ),
-    disabled: false,
+    disableable: false,
   };
 
   const modeRadioGroup: ControlElement = {
     element: (
-      <fieldset
-        className="fieldset-radio-group"
+      <RadioGroup
         onChange={handleChangeMode}
-        aria-labelledby="mode"
-        id="mode"
-      >
-        <legend>Mode</legend>
-        <label>
-          <input
-            type="radio"
-            name="mode"
-            value="bar"
-            className="radio"
-            checked={sv.mode === Mode.bar}
-          />
-          Bars
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="mode"
-            value="scatter"
-            className="radio"
-            checked={sv.mode === Mode.scatter}
-          />
-          Scatter
-        </label>
-      </fieldset>
+        name={{ value: "mode", label: "Mode" }}
+        selectedValue={sv.mode}
+        options={Object.keys(Mode).map((mode) => {
+          return { value: mode, label: capitalize(mode) };
+        })}
+      />
     ),
-    disabled: false,
+    disableable: false,
   };
 
   const buttonGroups: ControlElement = {
@@ -160,16 +139,16 @@ const SortControls = () => {
   };
 
   return (
-      <Controls
-        disabled={sv.isSorting}
-        elements={[
-          algorithmDropdown,
-          arraySizeSlider,
-          speedSlider,
-          modeRadioGroup,
-          buttonGroups,
-        ]}
-      />
+    <Controls
+      disabled={sv.isSorting}
+      elements={[
+        algorithmDropdown,
+        arraySizeSlider,
+        speedSlider,
+        modeRadioGroup,
+        buttonGroups,
+      ]}
+    />
   );
 };
 

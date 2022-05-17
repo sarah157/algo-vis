@@ -39,6 +39,7 @@
     font-family: $font-family;
     font-size: 16px;
     padding: 0.25em 0.5em;
+    text-transform: capitalize;
     ;
   }
 
@@ -47,6 +48,7 @@
     padding: 0.5em;
     text-align: start;
     font-size: 16px;
+    text-transform: capitalize;
 
     &.active {
       @include button($primary-color);

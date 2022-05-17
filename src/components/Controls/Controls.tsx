@@ -1,16 +1,16 @@
-import { Close, Settings } from "@mui/icons-material";
+import { Close } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import { useClickOutside, useWindowSize } from "../../helpers";
 import "./Controls.scss";
 
 export type ControlElement = {
   element: JSX.Element;
-  disabled?: boolean;
+  disableable?: boolean;
 };
 
 type ControlsProps = {
-  disabled: boolean;
   elements: ControlElement[];
+  disabled: boolean;
 }
 
 const Controls = ({ disabled, elements }: ControlsProps) => {
@@ -52,7 +52,7 @@ const Controls = ({ disabled, elements }: ControlsProps) => {
           <div
           key={i}
             className={
-              disabled && el.disabled
+              disabled && el.disableable
                 ? "controls__item disabled"
                 : "controls__item"
             }

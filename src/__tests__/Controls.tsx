@@ -3,12 +3,12 @@ import Controls, { ControlElement } from "../components/Controls/Controls";
 
 const enabledEl: ControlElement = {
   element: <div data-testid="test">test1</div>,
-  disabled: true,
+  disableable: true,
 };
 
 const disabledEl: ControlElement = {
   element: <div>test2</div>,
-  disabled: false,
+  disableable: false,
 };
 
 describe("<Controls />", () => {

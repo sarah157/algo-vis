@@ -24,6 +24,7 @@ const ArrayContainer = () => {
     <div className="array-container">
       {sv.array.map((value: number, index: number) => (
         <div
+          key={index}
           style={{height: `${(value / maxArrayValue) * 100}%`}}
           className={`array-item ${sv.mode} ${getColorClassName(index)}`}
         >
