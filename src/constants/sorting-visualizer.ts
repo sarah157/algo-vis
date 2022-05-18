@@ -1,9 +1,10 @@
 export enum SortAlgorithm {
   bubbleSort = "bubbleSort",
   insertionSort = "insertionSort",
+  selectionSort = "selectionSort",
   quickSort = "quickSort",
   mergeSort = "mergeSort",
-  selectionSort = "selectionSort"
+  heapSort = "heapSort"
 }
 
 export enum SortEventType {
