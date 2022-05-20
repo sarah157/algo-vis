@@ -15,6 +15,7 @@ import {
   maxArrayValue,
   initialSpeed,
   Mode,
+  maxSpeed,
 } from "../constants";
 import { RootState } from ".";
 
@@ -148,7 +149,7 @@ const dispatchEvent = async (
   switch (event.type) {
     case SortEventType.swap:
       dispatch(setSwapIndices(event.indices));
-      await _sleep(speed);
+      await _sleep(speed + 0.3);
       dispatch(swapValues(event.indices));
       break;
     case SortEventType.compare:
