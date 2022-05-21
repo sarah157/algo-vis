@@ -23,6 +23,30 @@ describe("<Controls />", () => {
   });
 });
 
+describe("<Controls /> disabled prop", () => {
+  describe("disabled is true", () => {
+    it("should set all elements as not disabled", () => {
+      render(<Controls disabled={false} elements={[enabledEl, disabledEl]} />);
+      const controls = screen.getByTestId("controls");
+      const [enabledElement, disabledElement] = controls.children;
+      expect(enabledElement.className).not.toContain("disabled");
+      expect(disabledElement.className).not.toContain("disabled");
+    });
+  });
+
+  describe("disabled is false", () => {
+    it("should only set elements with disabled=true tp disabled", () => {
+      render(<Controls disabled={true} elements={[enabledEl, disabledEl]} />);
+      const controls = screen.getByTestId("controls");
+      expect(controls).toBeInTheDocument;
+      expect(controls.childElementCount).toBe(2);
+      const [enabledElement, disabledElement] = controls.children;
+      expect(enabledElement.className).toContain("disabled");
+      expect(disabledElement.className).not.toContain("disabled");
+    });
+  });
+});
+
 describe("<Controls /> on smaller than medium devices", () => {
   const resizeToLessThanMed = () => {
     global.innerWidth = 767;
@@ -61,29 +85,5 @@ describe("<Controls /> on smaller than medium devices", () => {
     expect(screen.getByTestId("CloseIcon")).toBeInTheDocument; // controls open
     fireEvent.click(screen.getByText("testOutsideClick")); // outside click
     expect(screen.getByText("Settings")).toBeInTheDocument; // controls clsoed
-  });
-});
-
-describe("<Controls /> disabled prop", () => {
-  describe("disabled is true", () => {
-    it("should set all elements as not disabled", () => {
-      render(<Controls disabled={false} elements={[enabledEl, disabledEl]} />);
-      const controls = screen.getByTestId("controls");
-      const [enabledElement, disabledElement] = controls.children;
-      expect(enabledElement.className).not.toContain("disabled");
-      expect(disabledElement.className).not.toContain("disabled");
-    });
-  });
-
-  describe("disabled is false", () => {
-    it("should only set elements with disabled=true tp disabled", () => {
-      render(<Controls disabled={true} elements={[enabledEl, disabledEl]} />);
-      const controls = screen.getByTestId("controls");
-      expect(controls).toBeInTheDocument;
-      expect(controls.childElementCount).toBe(2);
-      const [enabledElement, disabledElement] = controls.children;
-      expect(enabledElement.className).toContain("disabled");
-      expect(disabledElement.className).not.toContain("disabled");
-    });
   });
 });

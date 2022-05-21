@@ -6,24 +6,27 @@ import {
   ThunkDispatch,
   AnyAction,
 } from "@reduxjs/toolkit";
+import { RootState } from ".";
+import bfs from "../algorithms/pathfinding/bfs";
 import { sleep, swap } from "../helpers";
 
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
 const FINISH_NODE_ROW = 10;
 const FINISH_NODE_COL = 35;
+export enum PathfindingAlgorithm {
+bfs = "bfs"
+}
 export enum NodeType {
-  unvisted,
+  unvisited,
   visited,
-  path,
   wall,
   start,
-  end,
+  finish,
 }
 
 export interface Node {
   distance: number;
-  previousNode?: Node | null;
   row: number;
   col: number;
   type: NodeType;
@@ -31,13 +34,18 @@ export interface Node {
 
 interface PathfindingVisualizerState {
   grid: Node[][];
-  isFinding: boolean;
+  algorithm: PathfindingAlgorithm;
+  speed: number;
+  isSearching: boolean;
   isFound: boolean;
 }
 
+
 const initialState: PathfindingVisualizerState = {
   grid: getInitialGrid(),
-  isFinding: false,
+  algorithm: PathfindingAlgorithm.bfs,
+  speed: 1,
+  isSearching: false,
   isFound: false,
 };
 
@@ -45,17 +53,57 @@ const pathfindingVisualizerSlice = createSlice({
   name: "pathfindingVisualize",
   initialState: initialState,
   reducers: {
-    startFinding(state) {
-      state.isFinding = true;
+    reset(state) {
+      state.isFound = false;
+      state.isSearching = false;
+      state.grid = getInitialGrid();
+    },
+    setIsSearching(state, action) {
+      state.isSearching = action.payload;
     },
     setWall(state, action) {
       const [i, j] = action.payload;
-      if ([NodeType.start, NodeType.end].includes(state.grid[i][j].type))
+      if ([NodeType.start, NodeType.finish].includes(state.grid[i][j].type))
         return;
       state.grid[i][j].type = NodeType.wall;
     },
+    setVisited(state, action) {
+      const [i, j] = action.payload;
+      if ([NodeType.start, NodeType.finish].includes(state.grid[i][j].type))
+        return;
+      state.grid[i][j].type = NodeType.visited;
+    },
+    setAlgorithm(state, action) {
+      state.algorithm = action.payload;
+    },
+    setIsFound(state, action) {
+      state.isFound = action.payload;
+    },
   },
 });
+
+export const startSearching = createAsyncThunk<void, void, { state: RootState }>(
+  "startSearching",
+  async (_, { dispatch, getState }) => {
+    dispatch(setIsSearching(true));
+    let pv: PathfindingVisualizerState = getState().pathfindingVisualizer;
+    const gen: Generator<number[]> = bfs(pv.grid, pv.grid[START_NODE_ROW][START_NODE_COL], pv.grid[FINISH_NODE_ROW][FINISH_NODE_COL])
+
+    let visited: number[] = gen.next().value;
+    while (visited) {
+      console.log(visited)
+      // await dispatchEvent(event, pv.speed, dispatch);
+      dispatch(setVisited(visited))
+      await sleep(10);
+      visited = gen.next().value;
+      pv = getState().pathfindingVisualizer;
+    }
+
+    
+console.log("sdf")
+    // if (!event) dispatch(setIsSorted(true)); // else loop ended because user clicked stop
+    // dispatch(resetIndices());
+  })
 
 function getInitialGrid() {
   const grid = [];
@@ -74,17 +122,16 @@ function createNode(col: number, row: number): Node {
     row === START_NODE_ROW && col === START_NODE_COL
       ? NodeType.start
       : row === FINISH_NODE_ROW && col === FINISH_NODE_COL
-      ? NodeType.end
-      : NodeType.unvisted;
+      ? NodeType.finish
+      : NodeType.unvisited;
   return {
     col,
     row,
     distance: Infinity,
     type: type,
-    previousNode: null,
   };
 }
 
-export const { startFinding, setWall } = pathfindingVisualizerSlice.actions;
+export const { reset, setIsSearching, setWall, setVisited, setAlgorithm, setIsFound } = pathfindingVisualizerSlice.actions;
 
 export default pathfindingVisualizerSlice;

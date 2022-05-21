@@ -20,6 +20,7 @@ const Grid = () => {
     pos.split("-").map((x: string) => Number(x));
 
   const handleMouseDown = (e: any) => {
+    if (pv.isSearching) return;
     const position: number[] = getPosition(e.target.id);
     dispatch(setWall(position));
     setIsDragging(true);
@@ -30,14 +31,14 @@ const Grid = () => {
   };
 
   const handleMouseMove = (e: any) => {
-    if (!isDragging) return;
+    if (!isDragging || pv.isSearching) return;
     const position: number[] = getPosition(e.target.id);
     dispatch(setWall(position));
   };
 
   const getColorClass = (nodeType: NodeType) => {
     switch (nodeType) {
-      case NodeType.unvisted:
+      case NodeType.unvisited:
         return "";
       case NodeType.visited:
         return "visited";
@@ -45,7 +46,7 @@ const Grid = () => {
         return "wall";
       case NodeType.start:
         return "start";
-      case NodeType.end:
+      case NodeType.finish:
         return "end";
     }
   };

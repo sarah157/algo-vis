@@ -20,7 +20,7 @@ import {
 } from "../constants";
 import { RootState } from ".";
 
-import * as sorters from "../algorithms";
+import * as sorters from "../algorithms/sorting";
 
 
 interface SortingVisualizerState {
