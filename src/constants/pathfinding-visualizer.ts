@@ -1,10 +1,11 @@
 export enum PathfindingEventType {
     visit,
     pathFound,
-    pathNotFound
+    noPathFound
 }
 
 export interface PathfindingEvent {
     type: PathfindingEventType;
-    nodes?: Node[];
+    position?: number[];
+    path?: number[][];
 }

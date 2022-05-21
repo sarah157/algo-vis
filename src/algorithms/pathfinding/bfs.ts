@@ -2,22 +2,32 @@ import {
   ConnectingAirportsOutlined,
   ConstructionOutlined,
 } from "@mui/icons-material";
+import {
+  PathfindingEvent,
+  PathfindingEventType,
+} from "../../constants/pathfinding-visualizer";
 import { Node, NodeType } from "../../store/pathfinding-visualizer-slice";
 
-function* bfs(grid: Node[][], start: Node, finish: Node): Generator<number[], number[][]> {
+function* bfs(
+  grid: Node[][],
+  start: Node,
+  finish: Node
+): Generator<PathfindingEvent> {
   const unvisited = [start];
   let visited: boolean[][] = [];
   for (let i = 0; i < grid.length; i++) {
     visited[i] = Array(grid[0].length).fill(false);
   }
-  let path: number[][] = []
+  let path: number[][] = [];
   while (unvisited.length > 0) {
     let node: Node = unvisited.shift()!;
-    path.unshift();
-    if (node === finish) break;
+    if (node === finish) {
+      yield { type: PathfindingEventType.pathFound, path };
+      return;
+    }
     if (node.type === NodeType.wall || visited[node.row][node.col]) continue;
 
-    yield [node.row, node.col];
+    yield { type: PathfindingEventType.visit, position: [node.row, node.col] };
 
     visited[node.row][node.col] = true;
 
@@ -37,12 +47,10 @@ function* bfs(grid: Node[][], start: Node, finish: Node): Generator<number[], nu
         continue;
 
       unvisited.push(grid[nextRow][nextCol]);
-      path.push([nextRow, nextCol])
+      path.push([nextRow, nextCol]);
     }
   }
-  return path;
+  yield { type: PathfindingEventType.noPathFound };
 }
-
-
 
 export default bfs;

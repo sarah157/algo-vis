@@ -1,3 +1,4 @@
+import { keyboardKey } from "@testing-library/user-event";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
@@ -65,7 +66,7 @@ const Grid = () => {
               onMouseDown={handleMouseDown}
               key={rowIdx + "-" + colIdx}
               id={rowIdx + "-" + colIdx}
-              className={`grid__node ${getColorClass( pv.grid[rowIdx][colIdx].type)}`}
+              className={`grid__node ${pv.grid[rowIdx][colIdx].type}`}
             />
           ))}
         </div>
