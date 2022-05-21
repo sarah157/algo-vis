@@ -8,7 +8,7 @@ import "./styles/_global.scss";
 function App() {
   return (
     <div className="App">
-      <Header />
+      {/* <Header /> */}
       <Main>
         <Routes>
           <Route path="/s" element={<SortingVisualizer />}  />

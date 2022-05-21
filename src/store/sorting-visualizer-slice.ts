@@ -16,21 +16,23 @@ import {
   initialSpeed,
   Mode,
   maxSpeed,
+  Speed,
 } from "../constants";
 import { RootState } from ".";
 
 import * as sorters from "../algorithms";
 
+
 interface SortingVisualizerState {
   array: number[];
   arrayLength: number;
-  speed: number;
+  speed: number;                      // speed of sorting; a higher value means faster sorting
   algorithm: SortAlgorithm;
-  swapIndices: number[] | undefined;
-  compareIndices: number[];
-  sortedIndices: number[];
-  pivotIndex: number;
-  isSorted: boolean;
+  swapIndices: number[] | undefined;  // indices being swapped or changing values
+  compareIndices: number[];           // indices being compared
+  sortedIndices: number[];            // indices that are sorted
+  pivotIndex: number;                 // pivot index for quick sort
+  isSorted: boolean;                  
   isSorting: boolean;
   mode: Mode;
 }
@@ -49,8 +51,8 @@ const initialState: SortingVisualizerState = {
   mode: Mode.bar,
 };
 
-const sortVisualizerSlice = createSlice({
-  name: "sortvisualizer",
+const sortingVisualizerSlice = createSlice({
+  name: "sortingvisualizer",
   initialState: initialState,
   reducers: {
     reset(state) {
@@ -172,7 +174,10 @@ const dispatchEvent = async (
   await _sleep(speed);
 };
 
-const _sleep = async (speed: number) => await sleep(1000 / speed ** 4);
+const _sleep = async (speed: number) => {
+  const delay: number = maxSpeed - speed + 1
+  await sleep(delay ** 3 / 100);
+}
 
 export const {
   reset,
@@ -190,6 +195,6 @@ export const {
   setAlgorithm,
   setSwapIndices,
   setCompareIndices,
-} = sortVisualizerSlice.actions;
+} = sortingVisualizerSlice.actions;
 
-export default sortVisualizerSlice;
+export default sortingVisualizerSlice;

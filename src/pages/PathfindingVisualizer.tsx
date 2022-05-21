@@ -1,5 +1,11 @@
+import Grid from "../components/Grid/Grid";
+
 const PathfindingVisualizer = () => {
-    return <p>hi</p>
-}
+  return (
+    <>
+      <Grid></Grid>
+    </>
+  );
+};
 
 export default PathfindingVisualizer;

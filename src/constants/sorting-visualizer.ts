@@ -7,6 +7,10 @@ export enum SortAlgorithm {
   heapSort = "heapSort"
 }
 
+export enum Speed {
+  slowest = 500, slow = 200, normal = 50, fast = 20, fastest = 5
+}
+
 export enum SortEventType {
   swap,
   compare,
