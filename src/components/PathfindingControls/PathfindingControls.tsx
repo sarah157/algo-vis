@@ -1,27 +1,19 @@
 import { ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import {
-  arrayLengthStep,
-  maxArrayLength,
-  maxSpeed,
-  minArrayLength,
-  minSpeed,
-  Mode,
-  SortAlgorithm,
-} from "../../constants";
-
 import { AppDispatch, RootState } from "../../store";
 import {
-  PathfindingAlgorithm,
   startSearching,
   setIsSearching,
   reset,
-  setAlgorithm
+  setAlgorithm,
+  clearVisitedAndPath,
+  clearWalls,
+  setSpeed,
 } from "../../store/pathfinding-visualizer-slice";
 import "../UI/Dropdown/Dropdown.scss";
 import "./PathfindingControls.scss";
 import Slider from "../UI/Slider/Slider";
+import { PathfindingAlgorithm } from "../../constants/pathfinding-visualizer";
 import StartStopButton from "../UI/StartStopButton/StartStopButton";
 import Dropdown, { Option } from "../UI/Dropdown/Dropdown";
 import Controls, { ControlElement } from "../Controls/Controls";
@@ -33,21 +25,23 @@ const PathfindingControls = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const _reset = () => dispatch(reset());
+  const _clearVisitedAndPath = () => dispatch(clearVisitedAndPath());
+  const _clearWalls = () => dispatch(clearWalls())
   const _setAlgorithm = (algorithm: PathfindingAlgorithm) =>
     dispatch(setAlgorithm(algorithm));
-  // const _setSpeed = (speed: number) => dispatch(setSpeed(speed));
+  const _setSpeed = (speed: number) => dispatch(setSpeed(speed));
   const _stopSearching = () => dispatch(setIsSearching(false));
   const _startSearching = () => dispatch(startSearching());
 
 
   const handleChangeAlgorithm = (selected: string) => {
     _setAlgorithm(selected as PathfindingAlgorithm);
-    // if (pv.isSorted) _reset();
+    if (pv.isFound) _clearVisitedAndPath();
   };
 
-  // const handleChangeSpeed = (e: ChangeEvent<HTMLInputElement>) => {
-  //   _setSpeed(parseInt(e.target.value));
-  // };
+  const handleChangeSpeed = (e: ChangeEvent<HTMLInputElement>) => {
+    _setSpeed(parseInt(e.target.value));
+  };
 
   const algorithmOptions: Option[] = Object.keys(PathfindingAlgorithm).map((a) => {
     return { value: a, label: `${capitalize(a)}` };
@@ -66,7 +60,20 @@ const PathfindingControls = () => {
     ),
     disableable: true,
   };
-
+  const speedSlider: ControlElement = {
+    element: (
+      <Slider
+        label="Speed"
+        id="speed"
+        value={pv.speed}
+        name="speed"
+        max={100}
+        min={1}
+        onChange={handleChangeSpeed}
+      ></Slider>
+    ),
+    disableable: false,
+  };
 
   const buttonGroups: ControlElement = {
     element: (
@@ -84,6 +91,7 @@ const PathfindingControls = () => {
       disabled={pv.isSearching}
       elements={[
         algorithmDropdown,
+        speedSlider,
         buttonGroups,
       ]}
     />

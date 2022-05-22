@@ -50,6 +50,7 @@ const capitalize = (str: string): string => {
 //   }
 // };
 
+
 const useClickOutside = (
   ref: React.RefObject<HTMLElement>,
   callback: () => void

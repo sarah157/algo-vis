@@ -137,7 +137,7 @@ export const startSorting = createAsyncThunk<void, void, { state: RootState }>(
       sv = getState().sortingVisualizer;
     }
 
-    if (!event) dispatch(setIsSorted(true)); // else loop ended because user clicked stop
+    if (!event) dispatch(setIsSorted(true)); // otherwise loop ended because user clicked stop (sv.isSorting = false)
     dispatch(resetIndices());
   }
 );

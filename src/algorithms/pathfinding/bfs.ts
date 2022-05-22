@@ -1,56 +1,50 @@
 import {
-  ConnectingAirportsOutlined,
-  ConstructionOutlined,
-} from "@mui/icons-material";
-import {
   PathfindingEvent,
-  PathfindingEventType,
+  PathfindingEventType as EventType,
 } from "../../constants/pathfinding-visualizer";
-import { Node, NodeType } from "../../store/pathfinding-visualizer-slice";
+import { isValid, getShortestPath, dRow, dCol} from "./helpers";
+import { Node } from "../../constants/pathfinding-visualizer"
 
-function* bfs(
+export default function* bfs(
   grid: Node[][],
-  start: Node,
-  finish: Node
+  startPos: number[],
+  finishPos: number[]
 ): Generator<PathfindingEvent> {
-  const unvisited = [start];
-  let visited: boolean[][] = [];
-  for (let i = 0; i < grid.length; i++) {
-    visited[i] = Array(grid[0].length).fill(false);
-  }
-  let path: number[][] = [];
-  while (unvisited.length > 0) {
-    let node: Node = unvisited.shift()!;
-    if (node === finish) {
-      yield { type: PathfindingEventType.pathFound, path };
+  const start = grid[startPos[0]][startPos[1]];
+  const finish = grid[finishPos[0]][finishPos[1]];
+
+  start.isVisited = true; 
+  yield { type: EventType.visit, position: [start.row, start.col].join() };
+
+  const queue = [start]; // unvisited queue
+
+  while (queue.length > 0) {
+    const currentNode: Node = queue.shift()!;
+
+    // current node is the finish node, end loop
+    if (currentNode === finish) {
+      yield { type: EventType.pathFound, path: getShortestPath(finish) };
       return;
     }
-    if (node.type === NodeType.wall || visited[node.row][node.col]) continue;
 
-    yield { type: PathfindingEventType.visit, position: [node.row, node.col] };
-
-    visited[node.row][node.col] = true;
-
-    const dRow = [0, 0, -1, 1];
-    const dCol = [-1, 1, 0, 0];
-
+    // otherwise, add adjacent nodes to queue
     for (let i = 0; i < 4; i++) {
-      const nextRow = node.row + dCol[i];
-      const nextCol = node.col + dRow[i];
+      const adjRow = currentNode.row + dCol[i];
+      const adjCol = currentNode.col + dRow[i];
 
-      if (
-        nextRow < 0 ||
-        nextRow >= grid.length ||
-        nextCol < 0 ||
-        nextCol >= grid[0].length
-      )
-        continue;
+      if (!isValid(grid, adjRow, adjCol)) continue;
 
-      unvisited.push(grid[nextRow][nextCol]);
-      path.push([nextRow, nextCol]);
+      const adjNode: Node = grid[adjRow][adjCol];
+      // set adj node as visited and set its previous node to the current node
+      yield { type: EventType.visit, position: [adjRow, adjCol].join() };
+      adjNode.isVisited = true;
+      adjNode.prevNode = { ...currentNode };
+      // add adj node to queue
+      queue.push(adjNode);
     }
   }
-  yield { type: PathfindingEventType.noPathFound };
+
+  yield { type: EventType.noPathFound };
 }
 
-export default bfs;
+

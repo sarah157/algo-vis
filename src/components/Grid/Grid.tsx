@@ -2,7 +2,8 @@ import { keyboardKey } from "@testing-library/user-event";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { setWall, NodeType } from "../../store/pathfinding-visualizer-slice";
+import { addWall, removeWall } from "../../store/pathfinding-visualizer-slice";
+import { setMode } from "../../store/sorting-visualizer-slice";
 import "./Grid.scss";
 interface NodeProps {
   row: number;
@@ -16,14 +17,15 @@ const Grid = () => {
   const pv = useSelector((state: RootState) => state.pathfindingVisualizer);
   const dispatch = useDispatch<AppDispatch>();
   const [isDragging, setIsDragging] = useState(false);
+  const [isDrawingMode, setisDrawingMode] = useState<boolean>(true)
 
-  const getPosition = (pos: string): number[] =>
-    pos.split("-").map((x: string) => Number(x));
+  const getPosition = (pos: string): string =>  pos.replace("-", ",")
 
   const handleMouseDown = (e: any) => {
     if (pv.isSearching) return;
-    const position: number[] = getPosition(e.target.id);
-    dispatch(setWall(position));
+    const position: string = getPosition(e.target.id);
+    if (isDrawingMode) dispatch(addWall(position));
+    else dispatch(removeWall(position));
     setIsDragging(true);
   };
 
@@ -33,23 +35,34 @@ const Grid = () => {
 
   const handleMouseMove = (e: any) => {
     if (!isDragging || pv.isSearching) return;
-    const position: number[] = getPosition(e.target.id);
-    dispatch(setWall(position));
+    const position: string = getPosition(e.target.id);
+    if (isDrawingMode) dispatch(addWall(position));
+    else dispatch(removeWall(position));
   };
 
-  const getColorClass = (nodeType: NodeType) => {
-    switch (nodeType) {
-      case NodeType.unvisited:
-        return "";
-      case NodeType.visited:
-        return "visited";
-      case NodeType.wall:
-        return "wall";
-      case NodeType.start:
-        return "start";
-      case NodeType.finish:
-        return "end";
+const handleChangeMode = (e: any) => {
+  setisDrawingMode(prev => !prev)
+}
+  const getColorClass = (node: number[]) => {
+    const pos = node.join();
+    if (pv.walls.includes(pos)) {
+      return " wall";
     }
+    if (pv.path.includes(pos)) {
+      return " path";
+    }
+    if (pv.visited.includes(pos)) {
+      return " visited";
+    }
+
+    if (pv.start === pos) {
+      return " start";
+    }
+
+    if (pv.end === pos) {
+      return " finish";
+    }
+    return "";
   };
 
   return (
@@ -57,16 +70,17 @@ const Grid = () => {
       className="grid"
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
+      onDoubleClick={handleChangeMode}
     >
-      {pv.grid.map((row, rowIdx) => (
+      {[...Array(pv.gridRows)].map((_, rowIdx) => (
         <div className="grid__row" key={rowIdx}>
-          {row.map((col, colIdx) => (
+          {[...Array(pv.gridCols)].map((_, colIdx) => (
             <div
               onDragStart={(e: any) => e.preventDefault()}
               onMouseDown={handleMouseDown}
               key={rowIdx + "-" + colIdx}
               id={rowIdx + "-" + colIdx}
-              className={`grid__node ${pv.grid[rowIdx][colIdx].type}`}
+              className={`grid__node${getColorClass([rowIdx, colIdx])}`}
             />
           ))}
         </div>
