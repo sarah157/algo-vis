@@ -16,38 +16,39 @@ import {
   Node,
   PathfindingAlgorithm,
 } from "../constants/pathfinding-visualizer";
+import { CommonSettingsState } from "./common-settings-slice";
+import { speedToDelay } from "../constants";
 
-const START_NODE_ROW = 10;
-const START_NODE_COL = 15;
-const FINISH_NODE_ROW = 10;
-const FINISH_NODE_COL = 35;
+
+const ROWS = 30;
+const COLS = 40
 
 interface PathfindingVisualizerState {
   gridRows: number;
   gridCols: number;
   algorithm: PathfindingAlgorithm;
-  speed: number;
   isSearching: boolean;
   isFound: boolean;
   start: string;
   end: string;
   walls: string[];
+  weights: string[];
   visited: string[];
   path: string[];
 }
 
 const initialState: PathfindingVisualizerState = {
-  gridRows: 25,
-  gridCols: 50,
+  gridRows: ROWS,
+  gridCols: COLS,
   algorithm: PathfindingAlgorithm.bfs,
-  speed: 1,
   isSearching: false,
   isFound: false,
   walls: [],
+  weights: [],
   visited: [],
   path: [],
-  start: [START_NODE_ROW, START_NODE_COL].join(),
-  end: [FINISH_NODE_ROW, FINISH_NODE_COL].join(),
+  start: [Math.floor(ROWS/2), Math.floor(COLS/6)].join(),
+  end: [Math.floor(ROWS/2), Math.floor(COLS - COLS/6)].join(),
 };
 
 const pathfindingVisualizerSlice = createSlice({
@@ -58,6 +59,7 @@ const pathfindingVisualizerSlice = createSlice({
       state.isFound = false;
       state.isSearching = false;
       state.walls = [];
+      state.weights = [];
       state.path = [];
       state.visited = [];
     },
@@ -65,8 +67,9 @@ const pathfindingVisualizerSlice = createSlice({
       state.path = [];
       state.visited = [];
     },
-    clearWalls(state) {
+    clearWallsAndWeights(state) {
       state.walls = [];
+      state.weights = [];
     },
     setIsSearching(state, action) {
       state.isSearching = action.payload;
@@ -76,13 +79,20 @@ const pathfindingVisualizerSlice = createSlice({
       if (pos === state.start || pos === state.end) return;
       state.walls.push(pos);
     },
+    addWeight(state, action) {
+      const pos = action.payload;
+      if (pos === state.start || pos === state.end) return;
+      state.weights.push(pos);
+    },
     removeWall(state, action) {
       const pos = action.payload;
       if (pos === state.start || pos === state.end) return;
       state.walls = state.walls.filter(position => position != pos)
     },
-    setSpeed(state, action) {
-      state.speed = action.payload;
+    removeWeight(state, action) {
+      const pos = action.payload;
+      if (pos === state.start || pos === state.end) return;
+      state.weights = state.weights.filter(position => position != pos)
     },
     addVisited(state, action) {
       const pos = action.payload;
@@ -105,6 +115,7 @@ const pathfindingVisualizerSlice = createSlice({
     },
   },
 });
+
 const getNumberPos = (strPos: string) =>
   strPos.split(",").map((pos) => parseInt(pos));
 export const startSearching = createAsyncThunk<
@@ -114,6 +125,7 @@ export const startSearching = createAsyncThunk<
 >("startSearching", async (_, { dispatch, getState }) => {
   dispatch(setIsSearching(true));
   let pv: PathfindingVisualizerState = getState().pathfindingVisualizer;
+  let cs: CommonSettingsState = getState().commonSettings;
   const gen = bfs(
     generateGrid(pv),
     getNumberPos(pv.start),
@@ -122,9 +134,10 @@ export const startSearching = createAsyncThunk<
 
   let event: PathfindingEvent = gen.next().value;
   while (event && pv.isSearching) {
-    await dispatchEvent(event, pv.speed, dispatch);
+    await dispatchEvent(event, speedToDelay[cs.speed], dispatch);
     event = gen.next().value;
     pv = getState().pathfindingVisualizer;
+    cs = getState().commonSettings;
   }
 
   if (!event) dispatch(setIsFound(true)); // otherwise pv.isSearching = false; user clicked stop
@@ -155,11 +168,6 @@ async function dispatchEvent(
   await sleep(speed);
 }
 
-const _sleep = async (speed: number) => {
-  const delay: number = 100 - speed + 1
-  await sleep(delay ** 3 / 100);
-}
-
 function generateGrid(state: any) {
   const grid = [];
   for (let r = 0; r < state.gridRows; r++) {
@@ -186,10 +194,11 @@ function createNode(col: number, row: number, state: any): Node {
 export const {
   reset,
   clearVisitedAndPath,
-  clearWalls,
+  clearWallsAndWeights,
   setIsSearching,
   addWall,
-  setSpeed,
+  addWeight,
+  removeWeight,
   removeWall,
   addVisited,
   setAlgorithm,

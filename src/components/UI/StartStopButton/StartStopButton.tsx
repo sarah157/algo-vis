@@ -21,11 +21,9 @@ const StartStopButton = ({
     else onStart();
   };
 
+
+
   return (
-    <div className="button-controls">
-      <button onClick={onReset} disabled={isOn} className="reset-button">
-        <RefreshRoundedIcon />
-      </button>
 
       <button
         className={isOn ? "stop-button" : "start-button"}
@@ -33,7 +31,7 @@ const StartStopButton = ({
       >
         {isOn ? <StopRoundedIcon /> : <PlayArrowRoundedIcon />}
       </button>
-    </div>
+    
   );
 };
 

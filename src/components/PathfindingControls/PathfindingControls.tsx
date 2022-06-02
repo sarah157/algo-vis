@@ -7,8 +7,7 @@ import {
   reset,
   setAlgorithm,
   clearVisitedAndPath,
-  clearWalls,
-  setSpeed,
+  clearWallsAndWeights,
 } from "../../store/pathfinding-visualizer-slice";
 import "../UI/Dropdown/Dropdown.scss";
 import "./PathfindingControls.scss";
@@ -19,6 +18,8 @@ import Dropdown, { Option } from "../UI/Dropdown/Dropdown";
 import Controls, { ControlElement } from "../Controls/Controls";
 import RadioGroup from "../UI/RadioGroup/RadioGroup";
 import { capitalize } from "../../helpers";
+import { Speed, speedToDelay } from "../../constants";
+import SpeedDropdown from "../SpeedDropdown/SpeedDropdown";
 
 const PathfindingControls = () => {
   const pv = useSelector((state: RootState) => state.pathfindingVisualizer);
@@ -26,10 +27,9 @@ const PathfindingControls = () => {
 
   const _reset = () => dispatch(reset());
   const _clearVisitedAndPath = () => dispatch(clearVisitedAndPath());
-  const _clearWalls = () => dispatch(clearWalls())
+  const _clearWalls = () => dispatch(clearWallsAndWeights())
   const _setAlgorithm = (algorithm: PathfindingAlgorithm) =>
     dispatch(setAlgorithm(algorithm));
-  const _setSpeed = (speed: number) => dispatch(setSpeed(speed));
   const _stopSearching = () => dispatch(setIsSearching(false));
   const _startSearching = () => dispatch(startSearching());
 
@@ -37,10 +37,6 @@ const PathfindingControls = () => {
   const handleChangeAlgorithm = (selected: string) => {
     _setAlgorithm(selected as PathfindingAlgorithm);
     if (pv.isFound) _clearVisitedAndPath();
-  };
-
-  const handleChangeSpeed = (e: ChangeEvent<HTMLInputElement>) => {
-    _setSpeed(parseInt(e.target.value));
   };
 
   const algorithmOptions: Option[] = Object.keys(PathfindingAlgorithm).map((a) => {
@@ -59,19 +55,14 @@ const PathfindingControls = () => {
       />
     ),
     disableable: true,
-  };
-  const speedSlider: ControlElement = {
+  };  
+
+
+   const speedDropdown: ControlElement = {
     element: (
-      <Slider
-        label="Speed"
-        id="speed"
-        value={pv.speed}
-        name="speed"
-        max={100}
-        min={1}
-        onChange={handleChangeSpeed}
-      ></Slider>
+      <SpeedDropdown />
     ),
+    
     disableable: false,
   };
 
@@ -91,7 +82,7 @@ const PathfindingControls = () => {
       disabled={pv.isSearching}
       elements={[
         algorithmDropdown,
-        speedSlider,
+        speedDropdown,
         buttonGroups,
       ]}
     />

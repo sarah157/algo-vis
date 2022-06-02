@@ -9,16 +9,8 @@
     max-width: 1500px;
     height: 100%;
     max-height: 700px;
-    padding: 1em;
+    padding: 0.5em 1em;
     align-self: flex-end;
-    
-    @include md-max {
-        position: absolute;
-        top: 4em;
-        left: 0;
-        height: calc(100% - 4em);
-        padding: 0.5em;
-    }
 }
 
 .array-item {

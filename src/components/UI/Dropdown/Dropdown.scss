@@ -4,6 +4,7 @@
 .dropdown-container {
   position: relative;
   font-size: 16px;
+  height: 100%;
 
   label {
     display: block;
@@ -14,8 +15,8 @@
 .dropdown {
   padding: 0.5em 0.25em;
   position: absolute;
-  top: 2.2em;
-  z-index: 10;
+  top: 4.2em;
+  z-index: 1000;
   background-color: $secondary-color;
   width: 100%;
   display: flex;
@@ -49,6 +50,7 @@
     text-align: start;
     font-size: 16px;
     text-transform: capitalize;
+    z-index: 1000;
 
     &.active {
       @include button($primary-color);

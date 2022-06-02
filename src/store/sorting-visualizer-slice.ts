@@ -17,16 +17,17 @@ import {
   Mode,
   maxSpeed,
   Speed,
+  speedToDelay,
 } from "../constants";
 import { RootState } from ".";
 
 import * as sorters from "../algorithms/sorting";
+import { CommonSettingsState } from "./common-settings-slice";
 
 
 interface SortingVisualizerState {
   array: number[];
   arrayLength: number;
-  speed: number;                      // speed of sorting; a higher value means faster sorting
   algorithm: SortAlgorithm;
   swapIndices: number[] | undefined;  // indices being swapped or changing values
   compareIndices: number[];           // indices being compared
@@ -40,7 +41,6 @@ interface SortingVisualizerState {
 const initialState: SortingVisualizerState = {
   array: generateArray(initialArrayLength, minArrayValue, maxArrayValue),
   arrayLength: initialArrayLength,
-  speed: initialSpeed,
   algorithm: SortAlgorithm.bubbleSort,
   swapIndices: [],
   compareIndices: [],
@@ -108,9 +108,6 @@ const sortingVisualizerSlice = createSlice({
     setArrayLength(state, action: PayloadAction<number>) {
       state.arrayLength = action.payload;
     },
-    setSpeed(state, action: PayloadAction<number>) {
-      state.speed = action.payload;
-    },
     setAlgorithm(state, action: PayloadAction<SortAlgorithm>) {
       state.algorithm = action.payload;
     },
@@ -128,13 +125,15 @@ export const startSorting = createAsyncThunk<void, void, { state: RootState }>(
   async (_, { dispatch, getState }) => {
     dispatch(setIsSorting(true));
     let sv: SortingVisualizerState = getState().sortingVisualizer;
+    let cs: CommonSettingsState = getState().commonSettings;
     const gen: Generator<SortEvent> = sorters[sv.algorithm]([...sv.array]);
     let event: SortEvent = gen.next().value;
 
     while (event && sv.isSorting) {
-      await dispatchEvent(event, sv.speed, dispatch);
+      await dispatchEvent(event, speedToDelay[cs.speed], dispatch);
       event = gen.next().value;
       sv = getState().sortingVisualizer;
+      cs = getState().commonSettings;
     }
 
     if (!event) dispatch(setIsSorted(true)); // otherwise loop ended because user clicked stop (sv.isSorting = false)
@@ -151,7 +150,7 @@ const dispatchEvent = async (
   switch (event.type) {
     case SortEventType.swap:
       dispatch(setSwapIndices(event.indices));
-      await _sleep(speed + 0.3);
+      await sleep(speed / 2);
       dispatch(swapValues(event.indices));
       break;
     case SortEventType.compare:
@@ -165,19 +164,14 @@ const dispatchEvent = async (
       break;
     case SortEventType.changeValue:
       dispatch(setSwapIndices(event.indices));
-      await _sleep(speed);
+      await sleep(speed);
       dispatch(changeValue([event.indices[0], event.value!]));
       break;
     default:
       break;
   }
-  await _sleep(speed);
+  await sleep(speed);
 };
-
-const _sleep = async (speed: number) => {
-  const delay: number = maxSpeed - speed + 1
-  await sleep(delay ** 3 / 100);
-}
 
 export const {
   reset,
@@ -190,7 +184,6 @@ export const {
   setIsSorted,
   setIsSorting,
   changeValue,
-  setSpeed,
   setArrayLength,
   setAlgorithm,
   setSwapIndices,

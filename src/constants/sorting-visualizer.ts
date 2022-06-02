@@ -8,7 +8,11 @@ export enum SortAlgorithm {
 }
 
 export enum Speed {
-  slowest = 500, slow = 200, normal = 50, fast = 20, fastest = 5
+  slowest = "slowest", slow = "slow", normal = "normal", fast = "fast", fastest = "fastest"
+}
+
+export const speedToDelay: {[key: string]: number} = {
+  slowest: 500, slow: 200, normal: 50, fast: 20, fastest:5
 }
 
 export enum SortEventType {

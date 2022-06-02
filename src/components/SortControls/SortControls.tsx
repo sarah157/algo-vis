@@ -9,12 +9,13 @@ import {
   minSpeed,
   Mode,
   SortAlgorithm,
+  Speed,
+  speedToDelay,
 } from "../../constants";
 
 import { AppDispatch, RootState } from "../../store";
 import {
   setArrayLength,
-  setSpeed,
   startSorting,
   reset,
   setAlgorithm,
@@ -29,16 +30,21 @@ import Dropdown, { Option } from "../UI/Dropdown/Dropdown";
 import Controls, { ControlElement } from "../Controls/Controls";
 import RadioGroup from "../UI/RadioGroup/RadioGroup";
 import { capitalize } from "../../helpers";
+import { is } from "immer/dist/internal";
+import { RefreshRounded } from "@mui/icons-material";
+import { setSpeed } from "../../store/common-settings-slice";
+import SpeedDropdown from "../SpeedDropdown/SpeedDropdown";
 
 const SortControls = () => {
   const sv = useSelector((state: RootState) => state.sortingVisualizer);
+  const cs = useSelector((state: RootState) => state.commonSettings);
   const dispatch = useDispatch<AppDispatch>();
 
   const _reset = () => dispatch(reset());
   const _setArrayLength = (len: number) => dispatch(setArrayLength(len));
   const _setAlgorithm = (algorithm: SortAlgorithm) =>
     dispatch(setAlgorithm(algorithm));
-  const _setSpeed = (speed: number) => dispatch(setSpeed(speed));
+  const _setSpeed = (speed: Speed) => dispatch(setSpeed(speed));
   const _stopSorting = () => dispatch(stopSorting());
   const _startSorting = () => dispatch(startSorting());
   const _setMode = (mode: Mode) => dispatch(setMode(mode));
@@ -50,8 +56,8 @@ const SortControls = () => {
     _reset();
   };
 
-  const handleChangeMode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    _setMode(e.target.value as Mode);
+  const handleChangeMode = (mode: string) => {
+    _setMode(mode as Mode);
   };
 
   const handleChangeAlgorithm = (selected: string) => {
@@ -59,8 +65,8 @@ const SortControls = () => {
     if (sv.isSorted) _reset();
   };
 
-  const handleChangeSpeed = (e: ChangeEvent<HTMLInputElement>) => {
-    _setSpeed(parseInt(e.target.value));
+  const handleChangeSpeed = (selected: string) => {
+    _setSpeed(selected as Speed);
   };
 
   const algorithmOptions: Option[] = Object.keys(SortAlgorithm).map((a) => {
@@ -98,36 +104,36 @@ const SortControls = () => {
     disableable: true,
   };
 
-  const speedSlider: ControlElement = {
+   const speedDropdown: ControlElement = {
     element: (
-      <Slider
-        label="Speed"
-        id="speed"
-        value={sv.speed}
-        name="speed"
-        max={maxSpeed}
-        min={minSpeed}
-        onChange={handleChangeSpeed}
-      ></Slider>
+      <SpeedDropdown />
     ),
+    
     disableable: false,
   };
-
+  
   const modeRadioGroup: ControlElement = {
     element: (
-      <RadioGroup
-        onChange={handleChangeMode}
-        name={{ value: "mode", label: "Mode" }}
-        selectedValue={sv.mode}
-        options={Object.keys(Mode).map((mode) => {
-          return { value: mode, label: capitalize(mode) };
-        })}
-      />
+    <Dropdown
+  onSelect={handleChangeMode}
+  activeOptionValue={sv.mode}
+  options={[{value: "bar", label: "Bar"}, {value: "scatter", label: "Scatter"}]}
+  id="array-item-mode"
+  label="Mode"
+/>
+    
     ),
     disableable: false,
   };
-
-  const buttonGroups: ControlElement = {
+  const resetButton: ControlElement = {
+    element: (
+      <button onClick={_reset} disabled={sv.isSorting} className="reset-button">
+        <RefreshRounded />
+      </button>
+    ),
+    disableable: true,
+  };
+  const playButton: ControlElement = {
     element: (
       <StartStopButton
         isOn={sv.isSorting}
@@ -139,16 +145,20 @@ const SortControls = () => {
   };
 
   return (
-    <Controls
+    <div className="sorting-controls">
+          <Controls
       disabled={sv.isSorting}
       elements={[
         algorithmDropdown,
         arraySizeSlider,
-        speedSlider,
+        speedDropdown,
         modeRadioGroup,
-        buttonGroups,
+        resetButton,
+        playButton,
       ]}
     />
+    </div>
+
   );
 };
 

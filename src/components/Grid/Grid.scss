@@ -1,12 +1,53 @@
-.grid {
+@import "../../styles/mixins";
+@import "../../styles/variables";
+
+
+.grid-container {
   display: flex;
   flex-direction: column;
-  justify-self: center;
-  align-self: center;
+  height: 100%;
+  margin: 0 auto;
+
+  @include md-max {
+    padding-top: 2.5em;
+  }
+}
+
+.grid-toolbox {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+
+  &__button {
+    @include button(transparent);
+    border: 1px solid $secondary-color;
+    width: 90px;
+    padding: 0.2em;
+
+    &.selected {
+      background-color: $secondary-color;
+    }
+
+  
+  }
+    #clear {
+      @include button($danger-color);   
+      width: min-content;
+      padding: 0.1em 0.4em;
+      color: white;
+    }
+}
+
+.grid {
+  margin: 1em;
+  display: flex;
+  flex-direction: column;
 }
 
 .grid__row {
   display: flex;
+  justify-content: center;
 }
 
 .grid__node {
@@ -14,6 +55,7 @@
   height: 1em;
   width: 1em;
   border: 1px solid black;
+  transition: background-color 0.3s ease-out;
 
   &.start {
     background-color: green;
@@ -27,74 +69,29 @@
     background-color: black;
   }
 
+  &.weight {
+    background-color: red;
+  }
+
   &.path {
     background-color: aqua;
-    animation-name: shortestPath;
-    animation-duration: 1.5s;
-    animation-timing-function: ease-out;
-    animation-delay: 0;
-    animation-direction: alternate;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
-    animation-play-state: running;
   }
 
   &.visited {
     background-color: violet;
     animation-name: visitedAnimation;
-    animation-duration: 0.2s;
-    animation-timing-function: ease-out;
-    animation-delay: 0;
-    animation-direction: alternate;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
-    animation-play-state: running;
+    animation-timing-function: ease-in-out;
+    animation-duration: 1s;
   }
 }
 
-// .grid__node {
-//   width: 25px;
-//   height: 25px;
-//   border: 1px solid rgb(175, 216, 248);
-//   display: inline-block;
-//   background-color: white;
-// }
 
 @keyframes visitedAnimation {
   0% {
-    transform: scale(0.3);
-    background-color: rgba(0, 0, 66, 0.75);
-    border-radius: 100%;
-  }
-
-  50% {
-    background-color: rgba(17, 104, 217, 0.75);
-  }
-
-  75% {
-    transform: scale(1.2);
-    background-color: rgba(0, 217, 159, 0.75);
+    background-color: rgba(246, 28, 231, 0.75);
   }
 
   100% {
-    transform: scale(1);
-    background-color: rgba(0, 190, 218, 0.75);
-  }
-}
-
-@keyframes shortestPath {
-  0% {
-    transform: scale(0.6);
-    background-color: rgb(255, 254, 106);
-  }
-
-  50% {
-    transform: scale(1.2);
-    background-color: rgb(255, 254, 106);
-  }
-
-  100% {
-    transform: scale(1);
-    background-color: rgb(255, 254, 106);
+    background-color: violet;
   }
 }
