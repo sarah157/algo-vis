@@ -11,14 +11,13 @@ import {
   PathfindingEvent,
   PathfindingEventType,
 } from "../models/pathfinding-visualizer";
-import { sleep, swap } from "../helpers";
+import { sleep } from "../helpers";
 import {
   Node,
   PathfindingAlgorithm,
 } from "../models/pathfinding-visualizer";
 import { CommonSettingsState } from "./common-settings-slice";
 import { speedToDelay } from "../models";
-
 
 const ROWS = 30;
 const COLS = 50
@@ -71,44 +70,44 @@ const pathfindingVisualizerSlice = createSlice({
       state.walls = [];
       state.weights = [];
     },
-    setIsSearching(state, action) {
+    setIsSearching(state, action: PayloadAction<boolean>) {
       state.isSearching = action.payload;
     },
-    addWall(state, action) {
+    addWall(state, action: PayloadAction<string>) {
       const pos = action.payload;
       if (pos === state.start || pos === state.end) return;
       state.walls.push(pos);
     },
-    addWeight(state, action) {
+    addWeight(state, action: PayloadAction<string>) {
       const pos = action.payload;
       if (pos === state.start || pos === state.end) return;
       state.weights.push(pos);
     },
-    removeWall(state, action) {
+    removeWall(state, action: PayloadAction<string> ) {
       const pos = action.payload;
       if (pos === state.start || pos === state.end) return;
-      state.walls = state.walls.filter(position => position != pos)
+      state.walls = state.walls.filter(position => position !== pos)
     },
-    removeWeight(state, action) {
+    removeWeight(state, action: PayloadAction<string>) {
       const pos = action.payload;
       if (pos === state.start || pos === state.end) return;
-      state.weights = state.weights.filter(position => position != pos)
+      state.weights = state.weights.filter(position => position !== pos)
     },
-    addVisited(state, action) {
+    addVisited(state, action: PayloadAction<string>) {
       const pos = action.payload;
       if (pos === state.start || pos === state.end) return;
       state.visited.push(pos);
     },
-    setAlgorithm(state, action) {
+    setAlgorithm(state, action: PayloadAction<PathfindingAlgorithm>) {
       state.algorithm = action.payload;
     },
-    setIsFound(state, action) {
+    setIsFound(state, action: PayloadAction<boolean>) {
       state.isFound = action.payload;
       if (state.isFound) {
         state.isSearching = false;
       }
     },
-    addPath(state, action) {
+    addPath(state, action: PayloadAction<string>) {
       const pos = action.payload;
       if (pos === state.start || pos === state.end) return;
       state.path.push(pos);
@@ -151,7 +150,7 @@ async function dispatchEvent(
 
   switch (event.type) {
     case visit:
-      dispatch(addVisited(event.position));
+      dispatch(addVisited(event.position!));
       break;
 
     case pathFound:

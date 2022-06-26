@@ -2,7 +2,6 @@ import {
     PathfindingEvent,
     PathfindingEventType as EventType,
   } from "../../models/pathfinding-visualizer";
-  import { isValid, getShortestPath, dRow, dCol} from "./helpers";
   import { Node } from "../../models/pathfinding-visualizer"
   
 export default function* dijkstra(

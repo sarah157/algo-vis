@@ -1,35 +1,31 @@
-import { ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import {
   startSearching,
   setIsSearching,
-  reset,
   setAlgorithm,
-  clearVisitedAndPath,
-  clearWallsAndWeights,
+  clearVisitedAndPath
 } from "../../store/pathfinding-visualizer-slice";
 import "../UI/Dropdown/Dropdown.scss";
 import "./PathfindingControls.scss";
-import Slider from "../UI/Slider/Slider";
 import { PathfindingAlgorithm } from "../../models/pathfinding-visualizer";
 import StartStopButton from "../UI/StartStopButton/StartStopButton";
 import Dropdown, { Option } from "../UI/Dropdown/Dropdown";
 import Controls, { ControlElement } from "../Controls/Controls";
-import RadioGroup from "../UI/RadioGroup/RadioGroup";
 import { capitalize } from "../../helpers";
-import { Speed, speedToDelay } from "../../models";
 import SpeedDropdown from "../SpeedDropdown/SpeedDropdown";
 
 const PathfindingControls = () => {
   const pv = useSelector((state: RootState) => state.pathfindingVisualizer);
   const dispatch = useDispatch<AppDispatch>();
 
-  const _reset = () => dispatch(reset());
   const _clearVisitedAndPath = () => dispatch(clearVisitedAndPath());
   const _setAlgorithm = (algorithm: PathfindingAlgorithm) =>
     dispatch(setAlgorithm(algorithm));
-  const _stopSearching = () => dispatch(setIsSearching(false));
+  const _stopSearching = () => {
+    dispatch(clearVisitedAndPath())
+    dispatch(setIsSearching(false))
+  };
   const _startSearching = () => dispatch(startSearching());
 
 
