@@ -5,7 +5,7 @@ import {
   ThunkDispatch,
   AnyAction,
 } from "@reduxjs/toolkit";
-import { generateArray, sleep, swap } from "../helpers";
+import { generateArray, getSorter, sleep, swap } from "../helpers";
 import {
   SortEvent,
   SortAlgorithm,
@@ -13,15 +13,10 @@ import {
   initialArrayLength,
   minArrayValue,
   maxArrayValue,
-  initialSpeed,
   Mode,
-  maxSpeed,
-  Speed,
   speedToDelay,
-} from "../constants";
+} from "../models";
 import { RootState } from ".";
-
-import * as sorters from "../algorithms/sorting";
 import { CommonSettingsState } from "./common-settings-slice";
 
 
@@ -126,7 +121,7 @@ export const startSorting = createAsyncThunk<void, void, { state: RootState }>(
     dispatch(setIsSorting(true));
     let sv: SortingVisualizerState = getState().sortingVisualizer;
     let cs: CommonSettingsState = getState().commonSettings;
-    const gen: Generator<SortEvent> = sorters[sv.algorithm]([...sv.array]);
+    const gen: Generator<SortEvent> = getSorter(sv.algorithm,[ ...sv.array]);
     let event: SortEvent = gen.next().value;
 
     while (event && sv.isSorting) {

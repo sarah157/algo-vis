@@ -13,10 +13,15 @@ $font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
 sans-serif;
 
+$main-color-1: #0f4c5c;
+$main-color-2: #e76f51;
+$main-color-3: #ffc300;
+$main-color-4: #2a9d8f;
+$main-color-5: #8f2d56;
 
 // sort visualizer
-$default-color: #0f4c5c;
-$compare-color: #e76f51;
-$swap-color: #ffc300;
-$sorted-color: #2a9d8f;
-$pivot-color: #8f2d56;
+$default-color: $main-color-1;
+$compare-color: $main-color-2;
+$swap-color: $main-color-3;
+$sorted-color: $main-color-4;
+$pivot-color: $main-color-5;

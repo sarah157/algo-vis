@@ -7,14 +7,12 @@ type StartStopButtonProps = {
   isOn: boolean;
   onStart: () => void;
   onStop: () => void;
-  onReset: () => void;
 };
 
 const StartStopButton = ({
   isOn,
   onStart,
-  onStop,
-  onReset,
+  onStop
 }: StartStopButtonProps) => {
   const handleTogglePlay = () => {
     if (isOn) onStop();

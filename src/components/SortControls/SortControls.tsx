@@ -4,14 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   arrayLengthStep,
   maxArrayLength,
-  maxSpeed,
   minArrayLength,
-  minSpeed,
   Mode,
   SortAlgorithm,
-  Speed,
-  speedToDelay,
-} from "../../constants";
+  Speed
+} from "../../models";
 
 import { AppDispatch, RootState } from "../../store";
 import {
@@ -28,9 +25,7 @@ import Slider from "../UI/Slider/Slider";
 import StartStopButton from "../UI/StartStopButton/StartStopButton";
 import Dropdown, { Option } from "../UI/Dropdown/Dropdown";
 import Controls, { ControlElement } from "../Controls/Controls";
-import RadioGroup from "../UI/RadioGroup/RadioGroup";
 import { capitalize } from "../../helpers";
-import { is } from "immer/dist/internal";
 import { RefreshRounded } from "@mui/icons-material";
 import { setSpeed } from "../../store/common-settings-slice";
 import SpeedDropdown from "../SpeedDropdown/SpeedDropdown";
@@ -65,9 +60,6 @@ const SortControls = () => {
     if (sv.isSorted) _reset();
   };
 
-  const handleChangeSpeed = (selected: string) => {
-    _setSpeed(selected as Speed);
-  };
 
   const algorithmOptions: Option[] = Object.keys(SortAlgorithm).map((a) => {
     let name = a.split("Sort")[0];
@@ -139,7 +131,6 @@ const SortControls = () => {
         isOn={sv.isSorting}
         onStart={_startSorting}
         onStop={_stopSorting}
-        onReset={_reset}
       />
     ),
   };

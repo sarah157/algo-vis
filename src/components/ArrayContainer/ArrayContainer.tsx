@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { maxArrayValue, Mode } from "../../constants";
+import { maxArrayValue, Mode } from "../../models";
 import { RootState } from "../../store";
 import CircleIcon from "@mui/icons-material/Circle";
 import "./ArrayContainer.scss"

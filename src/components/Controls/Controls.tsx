@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useClickOutside, useWindowSize } from "../../helpers";
 import "./Controls.scss";
 
+// if disableable is false, element is always enabled; ow element disability == ControlsProps.disabled
 export type ControlElement = {
   element: JSX.Element;
-  disableable?: boolean;
+  disableable?: boolean; 
 };
 
 type ControlsProps = {

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Speed } from "../constants";
+import { Speed } from "../models";
 
 export interface CommonSettingsState {
     speed: Speed

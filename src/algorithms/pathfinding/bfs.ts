@@ -1,9 +1,9 @@
 import {
   PathfindingEvent,
   PathfindingEventType as EventType,
-} from "../../constants/pathfinding-visualizer";
+} from "../../models/pathfinding-visualizer";
 import { isValid, getShortestPath, dRow, dCol} from "./helpers";
-import { Node } from "../../constants/pathfinding-visualizer"
+import { Node } from "../../models/pathfinding-visualizer"
 
 export default function* bfs(
   grid: Node[][],

@@ -1,4 +1,4 @@
-import { Node } from "../../constants/pathfinding-visualizer";
+import { Node } from "../../models/pathfinding-visualizer";
 
 export const dRow = [0, 0, -1, 1];
 export const dCol = [-1, 1, 0, 0];

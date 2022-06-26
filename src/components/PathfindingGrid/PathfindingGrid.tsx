@@ -2,9 +2,8 @@ import { keyboardKey } from "@testing-library/user-event";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { addWall, addWeight, clearWallsAndWeights, removeWall, removeWeight } from "../../store/pathfinding-visualizer-slice";
-import { setMode } from "../../store/sorting-visualizer-slice";
-import "./Grid.scss";
+import { addWall, addWeight, clearVisitedAndPath, clearWallsAndWeights, removeWall, removeWeight } from "../../store/pathfinding-visualizer-slice";
+import "./PathfindingGrid.scss";
 
 type DrawingMode = "wall" | "weight" | "eraser";
 
@@ -23,6 +22,7 @@ const Grid = () => {
   };
 
   const updateGrid = (e: any) => {
+    if (pv.isFound) dispatch(clearVisitedAndPath())
     const position: string = getPosition(e.target.id);
     if (drawingMode === "wall") dispatch(addWall(position));
     else if (drawingMode === "weight") dispatch(addWeight(position));

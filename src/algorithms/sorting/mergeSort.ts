@@ -1,4 +1,4 @@
-import { SortEvent, SortEventType } from "../../constants";
+import { SortEvent, SortEventType } from "../../models";
 
 function* mergeSort(array: number[]): Generator<SortEvent> {
     yield* mergeSortHelper(array, 0, array.length - 1)

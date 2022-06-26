@@ -1,11 +1,11 @@
-import Grid from "../components/Grid/Grid";
+import PathfindingGrid from "../components/PathfindingGrid/PathfindingGrid";
 import PathfindingControls from "../components/PathfindingControls/PathfindingControls";
 
 const PathfindingVisualizer = () => {
   return (
     <>
     <PathfindingControls />
-      <Grid></Grid>
+      <PathfindingGrid />
     </>
   );
 };

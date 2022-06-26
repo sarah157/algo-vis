@@ -16,6 +16,7 @@
     background: $bg-color;
     width: 100%;
     border-radius: 5px;
+    font-size: 1em;
 
     &:hover {
       background:darken($bg-color,5%);

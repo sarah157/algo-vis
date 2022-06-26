@@ -1,5 +1,5 @@
 import * as algos from "../../algorithms/sorting"
-import { SortAlgorithm } from "../../constants";
+import { SortAlgorithm } from "../../models";
 
 const array = [10, 100, 10, 22, 11, 3, 1, 2, 3, 7, 8, 9]
 const jsSortedArray = [...array].sort((a, b) => a - b);

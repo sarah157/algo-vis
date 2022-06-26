@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Speed, speedToDelay } from "../../constants";
+import { Speed, speedToDelay } from "../../models";
 import { capitalize } from "../../helpers";
 import { AppDispatch, RootState } from "../../store";
 import { setSpeed } from "../../store/common-settings-slice";

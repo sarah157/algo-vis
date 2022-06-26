@@ -1,7 +1,6 @@
 @import "../../styles/mixins";
 @import "../../styles/variables";
 
-
 .grid-container {
   display: flex;
   flex-direction: column;
@@ -21,9 +20,10 @@
 
   &__button {
     @include button(transparent);
-    border: 1px solid $secondary-color;
+    // border: 1px solid $secondary-color;
     width: 90px;
     padding: 0.2em;
+    font-size: 0.9em;
 
     &.selected {
       background-color: $secondary-color;
@@ -32,10 +32,10 @@
   
   }
     #clear {
-      @include button($danger-color);   
+      @include button(transparent);   
       width: min-content;
       padding: 0.1em 0.4em;
-      color: white;
+      color: $danger-color;
     }
 }
 
@@ -43,6 +43,9 @@
   margin: 1em;
   display: flex;
   flex-direction: column;
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
+
 }
 
 .grid__row {
@@ -51,34 +54,35 @@
 }
 
 .grid__node {
-  background-color: white;
-  height: 1em;
-  width: 1em;
-  border: 1px solid black;
+  background-color: $background-color;
+  height: 1.25em;
+  width: 1.25em;
+  border-right: 1px solid black;
+  border-top: 1px solid black;
   transition: background-color 0.3s ease-out;
 
   &.start {
-    background-color: green;
+    background-color: rgb(8, 91, 55);
   }
 
   &.finish {
-    background-color: red;
+    background-color: rgb(8, 91, 55);
   }
 
   &.wall {
-    background-color: black;
+    background-color: $main-color-1;
   }
 
   &.weight {
-    background-color: red;
+    background-color: $main-color-5;
   }
 
   &.path {
-    background-color: aqua;
+    background-color: $main-color-4;
   }
 
   &.visited {
-    background-color: violet;
+    background-color: $main-color-3;
     animation-name: visitedAnimation;
     animation-timing-function: ease-in-out;
     animation-duration: 1s;
@@ -88,10 +92,10 @@
 
 @keyframes visitedAnimation {
   0% {
-    background-color: rgba(246, 28, 231, 0.75);
+    background-color: #feda64;
   }
 
   100% {
-    background-color: violet;
+    background-color: $main-color-3;
   }
 }

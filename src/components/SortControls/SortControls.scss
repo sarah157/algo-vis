@@ -1,18 +1,7 @@
 @import "../../styles/variables";
 @import "../../styles/mixins";
-// .sorting-controls {
-//     padding: 0.5em 1em;
-
-// }
-// .sorting-controls .controls__item:nth-child(5) {
-//     width: min-content;
-//     @include md-max {
-//         width: 100%;
-//     }
-
-// }
-
 .reset-button {
     @include button($secondary-color);
+    height: 100%;
     width: 100%;    
 }

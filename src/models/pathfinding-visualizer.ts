@@ -1,3 +1,7 @@
+export enum PathfindingAlgorithm {
+  bfs = "bfs",
+}
+
 export enum PathfindingEventType {
   visit,
   pathFound,
@@ -8,10 +12,6 @@ export interface PathfindingEvent {
   type: PathfindingEventType;
   position?: string;
   path?: string[];
-}
-
-export enum PathfindingAlgorithm {
-  bfs = "bfs",
 }
 
 export interface Node {

@@ -10,18 +10,18 @@ import bfs from "../algorithms/pathfinding/bfs";
 import {
   PathfindingEvent,
   PathfindingEventType,
-} from "../constants/pathfinding-visualizer";
+} from "../models/pathfinding-visualizer";
 import { sleep, swap } from "../helpers";
 import {
   Node,
   PathfindingAlgorithm,
-} from "../constants/pathfinding-visualizer";
+} from "../models/pathfinding-visualizer";
 import { CommonSettingsState } from "./common-settings-slice";
-import { speedToDelay } from "../constants";
+import { speedToDelay } from "../models";
 
 
 const ROWS = 30;
-const COLS = 40
+const COLS = 50
 
 interface PathfindingVisualizerState {
   gridRows: number;
@@ -116,8 +116,7 @@ const pathfindingVisualizerSlice = createSlice({
   },
 });
 
-const getNumberPos = (strPos: string) =>
-  strPos.split(",").map((pos) => parseInt(pos));
+
 export const startSearching = createAsyncThunk<
   void,
   void,
@@ -168,6 +167,10 @@ async function dispatchEvent(
   await sleep(speed);
 }
 
+function getNumberPos(strPos: string) {
+  return strPos.split(",").map((pos) => parseInt(pos));
+}
+  
 function generateGrid(state: any) {
   const grid = [];
   for (let r = 0; r < state.gridRows; r++) {

@@ -1,4 +1,4 @@
-import { SortEventType, SortEvent } from "../../constants";
+import { SortEventType, SortEvent } from "../../models";
 import { swap } from "../../helpers";
 
 function* insertionSort(array: number[]): Generator<SortEvent> {

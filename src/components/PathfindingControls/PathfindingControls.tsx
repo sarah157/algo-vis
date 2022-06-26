@@ -12,13 +12,13 @@ import {
 import "../UI/Dropdown/Dropdown.scss";
 import "./PathfindingControls.scss";
 import Slider from "../UI/Slider/Slider";
-import { PathfindingAlgorithm } from "../../constants/pathfinding-visualizer";
+import { PathfindingAlgorithm } from "../../models/pathfinding-visualizer";
 import StartStopButton from "../UI/StartStopButton/StartStopButton";
 import Dropdown, { Option } from "../UI/Dropdown/Dropdown";
 import Controls, { ControlElement } from "../Controls/Controls";
 import RadioGroup from "../UI/RadioGroup/RadioGroup";
 import { capitalize } from "../../helpers";
-import { Speed, speedToDelay } from "../../constants";
+import { Speed, speedToDelay } from "../../models";
 import SpeedDropdown from "../SpeedDropdown/SpeedDropdown";
 
 const PathfindingControls = () => {
@@ -27,7 +27,6 @@ const PathfindingControls = () => {
 
   const _reset = () => dispatch(reset());
   const _clearVisitedAndPath = () => dispatch(clearVisitedAndPath());
-  const _clearWalls = () => dispatch(clearWallsAndWeights())
   const _setAlgorithm = (algorithm: PathfindingAlgorithm) =>
     dispatch(setAlgorithm(algorithm));
   const _stopSearching = () => dispatch(setIsSearching(false));
@@ -66,13 +65,24 @@ const PathfindingControls = () => {
     disableable: false,
   };
 
-  const buttonGroups: ControlElement = {
+  const resetButton: ControlElement = {
+    element: (
+      <div>
+           <button onClick={_clearVisitedAndPath} disabled={pv.isSearching} className="reset-button">
+        Clear Path
+      </button>
+      </div>
+   
+    ),
+    disableable: true,
+  };
+
+  const playButton: ControlElement = {
     element: (
       <StartStopButton
         isOn={pv.isSearching}
         onStart={_startSearching}
         onStop={_stopSearching}
-        onReset={_reset}
       />
     ),
   };
@@ -83,7 +93,8 @@ const PathfindingControls = () => {
       elements={[
         algorithmDropdown,
         speedDropdown,
-        buttonGroups,
+        resetButton,
+        playButton,
       ]}
     />
   );

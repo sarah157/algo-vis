@@ -1,6 +1,6 @@
 import React from "react";
 import { bubbleSort, insertionSort, mergeSort, quickSort } from "../algorithms";
-import { SortAlgorithm } from "../constants";
+import { SortAlgorithm } from "../models";
 
 const randomIntInRange = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -40,16 +40,6 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const capitalize = (str: string): string => {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
-
-// const shuffle = (array: number[]) => {
-//   for (let i = array.length - 1; i >= 0; i--) {
-//     const randomIndex = Math.floor(Math.random() * (i + 1));
-//     const temp = array[i];
-//     array[i] = array[randomIndex];
-//     array[randomIndex] = temp;
-//   }
-// };
-
 
 const useClickOutside = (
   ref: React.RefObject<HTMLElement>,
