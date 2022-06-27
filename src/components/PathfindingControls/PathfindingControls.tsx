@@ -26,7 +26,10 @@ const PathfindingControls = () => {
     dispatch(clearVisitedAndPath())
     dispatch(setIsSearching(false))
   };
-  const _startSearching = () => dispatch(startSearching());
+  const _startSearching = () => {
+    if (pv.isFound) _clearVisitedAndPath();
+    dispatch(startSearching())
+  };
 
 
   const handleChangeAlgorithm = (selected: string) => {
@@ -34,8 +37,10 @@ const PathfindingControls = () => {
     if (pv.isFound) _clearVisitedAndPath();
   };
 
-  const algorithmOptions: Option[] = Object.keys(PathfindingAlgorithm).map((a) => {
-    return { value: a, label: `${capitalize(a)}` };
+  const algoLabelMap = {bfs: "Breadth-First Search", dfs: "Depth-First Search", astar: "A* (A-star)", dijkstra: "Dijkstra's"}
+
+  const algorithmOptions: Option[] = Object.values(PathfindingAlgorithm).map((a) => {
+    return { value: a, label: `${algoLabelMap[a]}` };
   });
 
   const algorithmDropdown: ControlElement = {
@@ -86,6 +91,7 @@ const PathfindingControls = () => {
   return (
     <Controls
       disabled={pv.isSearching}
+      className="pathfinding-controls"
       elements={[
         algorithmDropdown,
         speedDropdown,

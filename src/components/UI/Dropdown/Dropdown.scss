@@ -21,6 +21,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  
   gap: 0.25em;
   transition: opacity 0.3s ease-in-out;
   border-radius: 5px;
@@ -41,6 +42,7 @@
     font-size: 16px;
     padding: 0.25em 0.5em;
     text-transform: capitalize;
+    text-align: start;
     ;
   }
 

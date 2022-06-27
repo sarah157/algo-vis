@@ -1,2 +1,7 @@
 @import "../../styles/variables";
 @import "../../styles/mixins";
+
+
+.pathfinding-controls .controls__item:first-child {
+    width: 200px;
+}

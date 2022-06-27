@@ -1,6 +1,7 @@
 import React from "react";
-import { bubbleSort, insertionSort, mergeSort, quickSort } from "../algorithms";
-import { SortAlgorithm } from "../models";
+import { start } from "repl";
+import { bfs, dfs, astar, dijkstra, bubbleSort, insertionSort, mergeSort, quickSort } from "../algorithms";
+import { PathfindingAlgorithm, SortAlgorithm, Node as MyNode} from "../models";
 
 const randomIntInRange = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -13,7 +14,7 @@ const swap = (arr: number[], index1: number, index2: number) => {
 };
 
 const getSorter = (name: SortAlgorithm, array: number[]) => {
-  switch (name) {
+  switch(name) {
     case SortAlgorithm.bubbleSort:
       return bubbleSort(array);
     case SortAlgorithm.insertionSort:
@@ -26,6 +27,19 @@ const getSorter = (name: SortAlgorithm, array: number[]) => {
       return bubbleSort(array);
   }
 };
+
+const getPathfinder = (name: PathfindingAlgorithm, grid: MyNode[][], startPos: number[], finishPos: number[]) => {
+  switch(name) {
+    case PathfindingAlgorithm.bfs:
+      return bfs(grid, startPos, finishPos);
+    case PathfindingAlgorithm.dfs:
+      return dfs(grid, startPos, finishPos);
+    case PathfindingAlgorithm.astar:
+      return astar(grid, startPos, finishPos)
+    default:
+      return dijkstra(grid, startPos, finishPos)
+  }
+}
 
 const generateArray = (length: number, min: number, max: number) => {
   const arr = [];
@@ -82,6 +96,7 @@ export {
   randomIntInRange,
   swap,
   getSorter,
+  getPathfinder,
   generateArray,
   sleep,
   capitalize,

@@ -6,21 +6,17 @@ import {
   AnyAction,
 } from "@reduxjs/toolkit";
 import { RootState } from ".";
-import bfs from "../algorithms/pathfinding/bfs";
 import {
   PathfindingEvent,
   PathfindingEventType,
 } from "../models/pathfinding-visualizer";
-import { sleep } from "../helpers";
-import {
-  Node,
-  PathfindingAlgorithm,
-} from "../models/pathfinding-visualizer";
+import { sleep, getPathfinder } from "../helpers";
+import { Node, PathfindingAlgorithm } from "../models/pathfinding-visualizer";
 import { CommonSettingsState } from "./common-settings-slice";
 import { speedToDelay } from "../models";
 
 const ROWS = 30;
-const COLS = 50
+const COLS = 50;
 
 interface PathfindingVisualizerState {
   gridRows: number;
@@ -46,8 +42,8 @@ const initialState: PathfindingVisualizerState = {
   weights: [],
   visited: [],
   path: [],
-  start: [Math.floor(ROWS/2), Math.floor(COLS/6)].join(),
-  end: [Math.floor(ROWS/2), Math.floor(COLS - COLS/6)].join(),
+  start: [Math.floor(ROWS / 2), Math.floor(COLS / 6)].join(),
+  end: [Math.floor(ROWS / 2), Math.floor(COLS - COLS / 6)].join(),
 };
 
 const pathfindingVisualizerSlice = createSlice({
@@ -65,6 +61,7 @@ const pathfindingVisualizerSlice = createSlice({
     clearVisitedAndPath(state) {
       state.path = [];
       state.visited = [];
+      state.isFound = false;
     },
     clearWallsAndWeights(state) {
       state.walls = [];
@@ -83,15 +80,15 @@ const pathfindingVisualizerSlice = createSlice({
       if (pos === state.start || pos === state.end) return;
       state.weights.push(pos);
     },
-    removeWall(state, action: PayloadAction<string> ) {
+    removeWall(state, action: PayloadAction<string>) {
       const pos = action.payload;
       if (pos === state.start || pos === state.end) return;
-      state.walls = state.walls.filter(position => position !== pos)
+      state.walls = state.walls.filter((position) => position !== pos);
     },
     removeWeight(state, action: PayloadAction<string>) {
       const pos = action.payload;
       if (pos === state.start || pos === state.end) return;
-      state.weights = state.weights.filter(position => position !== pos)
+      state.weights = state.weights.filter((position) => position !== pos);
     },
     addVisited(state, action: PayloadAction<string>) {
       const pos = action.payload;
@@ -115,7 +112,6 @@ const pathfindingVisualizerSlice = createSlice({
   },
 });
 
-
 export const startSearching = createAsyncThunk<
   void,
   void,
@@ -124,7 +120,8 @@ export const startSearching = createAsyncThunk<
   dispatch(setIsSearching(true));
   let pv: PathfindingVisualizerState = getState().pathfindingVisualizer;
   let cs: CommonSettingsState = getState().commonSettings;
-  const gen = bfs(
+  const gen = getPathfinder(
+    pv.algorithm,
     generateGrid(pv),
     getNumberPos(pv.start),
     getNumberPos(pv.end)
@@ -169,7 +166,7 @@ async function dispatchEvent(
 function getNumberPos(strPos: string) {
   return strPos.split(",").map((pos) => parseInt(pos));
 }
-  
+
 function generateGrid(state: any) {
   const grid = [];
   for (let r = 0; r < state.gridRows; r++) {

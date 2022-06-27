@@ -12,9 +12,10 @@ export type ControlElement = {
 type ControlsProps = {
   elements: ControlElement[];
   disabled: boolean;
+  className?: string;
 }
 
-const Controls = ({ disabled, elements }: ControlsProps) => {
+const Controls = ({ disabled, elements, className }: ControlsProps) => {
   const [show, setShow] = useState(false);
   const { width } = useWindowSize();
   const [isMediumMax, setIsMediumMax] = useState(false);
@@ -48,7 +49,7 @@ const Controls = ({ disabled, elements }: ControlsProps) => {
           {show ? <Close  /> : "Settings" }
         </button>
       )}
-    {show &&  <div className={`controls`} data-testid="controls">
+    {show &&  <div className={`controls ${className}`} data-testid="controls">
         {elements.map((el, i) => (
           <div
           key={i}

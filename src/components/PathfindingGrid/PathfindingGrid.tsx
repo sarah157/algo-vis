@@ -109,7 +109,7 @@ const Grid = () => {
         >
           Eraser
         </button>
-        <button onClick={clearDrawings} id="clear">Clear</button>
+        <button onClick={clearDrawings} id="clear">Erase all</button>
       </div>
     </div>
   );

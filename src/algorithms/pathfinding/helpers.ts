@@ -1,7 +1,7 @@
 import { Node } from "../../models/pathfinding-visualizer";
 
 export const dRow = [0, 0, -1, 1];
-export const dCol = [-1, 1, 0, 0];
+export const dCol = [1, -1, 0, 0];
 
 export const isValid = (grid: Node[][], row: number, col: number) => {
   if (row < 0 || row >= grid.length || col < 0 || col >= grid[0].length)
