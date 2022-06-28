@@ -18,10 +18,11 @@ export interface PathfindingEvent {
 }
 
 export interface Node {
-  distance: number;
   row: number;
   col: number;
   isWall: boolean;
   isVisited: boolean;
   prevNode: Node | null;
+  distance: number;
+  totalDistance: number;  // manhattan distance to finish node
 }

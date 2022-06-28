@@ -15,6 +15,8 @@ export default function* dijkstra(
     start.distance = 0; 
     start.isVisited = true;
 
+    
+
     yield { type: EventType.visit, position: [start.row, start.col].join() };
   
     const queue = []

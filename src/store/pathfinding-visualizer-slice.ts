@@ -183,10 +183,11 @@ function createNode(col: number, row: number, state: any): Node {
   return {
     col,
     row,
-    distance: Infinity,
     isVisited: false,
     isWall: state.walls.includes([row, col].join()),
     prevNode: null,
+    distance: Infinity,
+    totalDistance: Infinity,
   };
 }
 

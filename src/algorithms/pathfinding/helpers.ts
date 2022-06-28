@@ -22,3 +22,8 @@ export const getShortestPath = (finish: Node) => {
   }
   return path;
 };
+
+export const getHeuristic = (node: Node, finish: Node) => { 
+	return Math.abs(node.col - finish.col) + Math.abs(node.row - finish.row); 
+} 
+
