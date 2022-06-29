@@ -3,7 +3,7 @@ import {
     PathfindingEventType as EventType,
   } from "../../models/pathfinding-visualizer";
   import { Node } from "../../models/pathfinding-visualizer"
-import { getShortestPath, dCol, dRow, isValid, getHeuristic } from "./helpers";
+import { getShortestPath, dCol, dRow, isValid } from "./helpers";
   
   export default function* dijkstra(
     grid: Node[][],
@@ -27,7 +27,7 @@ import { getShortestPath, dCol, dRow, isValid, getHeuristic } from "./helpers";
       openList.sort((a, b) => a.totalDistance! - b.totalDistance!);
       const currentNode = openList.shift()!;
   
-      if (currentNode == finish) {
+      if (currentNode === finish) {
         yield { type: EventType.pathFound, path: getShortestPath(finish) };
         return;
       }

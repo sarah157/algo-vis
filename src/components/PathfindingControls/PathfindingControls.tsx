@@ -12,7 +12,6 @@ import { PathfindingAlgorithm } from "../../models/pathfinding-visualizer";
 import StartStopButton from "../UI/StartStopButton/StartStopButton";
 import Dropdown, { Option } from "../UI/Dropdown/Dropdown";
 import Controls, { ControlElement } from "../Controls/Controls";
-import { capitalize } from "../../helpers";
 import SpeedDropdown from "../SpeedDropdown/SpeedDropdown";
 
 const PathfindingControls = () => {

@@ -32,14 +32,12 @@ import SpeedDropdown from "../SpeedDropdown/SpeedDropdown";
 
 const SortControls = () => {
   const sv = useSelector((state: RootState) => state.sortingVisualizer);
-  const cs = useSelector((state: RootState) => state.commonSettings);
   const dispatch = useDispatch<AppDispatch>();
 
   const _reset = () => dispatch(reset());
   const _setArrayLength = (len: number) => dispatch(setArrayLength(len));
   const _setAlgorithm = (algorithm: SortAlgorithm) =>
     dispatch(setAlgorithm(algorithm));
-  const _setSpeed = (speed: Speed) => dispatch(setSpeed(speed));
   const _stopSorting = () => dispatch(stopSorting());
   const _startSorting = () => dispatch(startSorting());
   const _setMode = (mode: Mode) => dispatch(setMode(mode));

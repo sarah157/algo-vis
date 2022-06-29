@@ -27,7 +27,7 @@ export default function* astar(
     openList.sort((a, b) => a.totalDistance! - b.totalDistance!);
     const currentNode = openList.shift()!;
 
-    if (currentNode == finish) {
+    if (currentNode === finish) {
       yield { type: EventType.pathFound, path: getShortestPath(finish) };
       return;
     }

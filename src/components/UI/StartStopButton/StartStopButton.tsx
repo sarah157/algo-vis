@@ -1,4 +1,3 @@
-import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import StopRoundedIcon from "@mui/icons-material/StopRounded";
 import "./StartStopButton.scss";
@@ -18,8 +17,6 @@ const StartStopButton = ({
     if (isOn) onStop();
     else onStart();
   };
-
-
 
   return (
 

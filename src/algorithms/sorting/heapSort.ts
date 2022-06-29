@@ -39,7 +39,7 @@ function* bubbleDown(
     largest = right;
   }
 
-  if (largest != i) {
+  if (largest !== i) {
     yield { type: SortEventType.swap, indices: [i, largest] };
     swap(array, i, largest);
     yield* bubbleDown(array, heapSize, largest);
