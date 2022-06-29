@@ -24,5 +24,6 @@ export interface Node {
   isVisited: boolean;
   prevNode: Node | null;
   distance: number;
-  totalDistance: number;  // manhattan distance to finish node
+  weight?: number;
+  totalDistance?: number;
 }

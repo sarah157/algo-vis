@@ -187,6 +187,7 @@ function createNode(col: number, row: number, state: any): Node {
     isWall: state.walls.includes([row, col].join()),
     prevNode: null,
     distance: Infinity,
+    weight: 1,
     totalDistance: Infinity,
   };
 }
