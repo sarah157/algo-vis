@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PathfindingAlgorithm } from "../../models";
 import { AppDispatch, RootState } from "../../store";
@@ -49,15 +49,15 @@ const Grid = () => {
     dispatch(clearWallsAndWeights());
   }
 
-  const selectedAlgorithmIsUnweighted = () => {
+  const selectedAlgorithmIsUnweighted = useCallback(() => {
     return pv.algorithm === PathfindingAlgorithm.bfs || pv.algorithm === PathfindingAlgorithm.dfs
-  }
+  },[pv.algorithm])
 
   useEffect(() => {
     if (selectedAlgorithmIsUnweighted() && drawingMode === "weight") {
       setDrawingMode("wall")
     }
-  }, [pv.algorithm]);
+  }, [drawingMode, selectedAlgorithmIsUnweighted]);
 
   const getColorClass = (node: number[]) => {
     const pos = node.join();

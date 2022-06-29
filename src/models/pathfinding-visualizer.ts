@@ -22,8 +22,8 @@ export interface Node {
   col: number;
   isWall: boolean;
   isVisited: boolean;
-  prevNode: Node | null;
-  distance: number;
   weight: number;
-  totalDistance?: number;
+  prevNode: Node | null;
+  distance: number;  // 'g'
+  totalDistance: number;  // 'f'
 }
