@@ -2,7 +2,7 @@
     position: absolute;
     top: 0.5em;
     left: 1em;
-    width: 100px;
+    width: 100%;
     z-index: 10;
 }
 
@@ -12,4 +12,6 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    max-width: 1500px;
+    margin: 0 auto;
 }

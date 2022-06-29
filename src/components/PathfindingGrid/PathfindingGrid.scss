@@ -6,6 +6,7 @@
   flex-direction: column;
   height: 100%;
   margin: 0 auto;
+  justify-content: center;
 
   @include md-max {
     padding-top: 2.5em;
@@ -17,6 +18,7 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
+  margin-bottom: 1em;
 
   &__button {
     @include button(transparent);
@@ -53,7 +55,6 @@
   flex-direction: column;
   border-left: 1px solid black;
   border-bottom: 1px solid black;
-
 }
 
 .grid__row {
