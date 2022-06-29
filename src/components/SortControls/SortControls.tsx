@@ -7,7 +7,6 @@ import {
   minArrayLength,
   Mode,
   SortAlgorithm,
-  Speed
 } from "../../models";
 
 import { AppDispatch, RootState } from "../../store";
@@ -27,7 +26,6 @@ import Dropdown, { Option } from "../UI/Dropdown/Dropdown";
 import Controls, { ControlElement } from "../Controls/Controls";
 import { capitalize } from "../../helpers";
 import { RefreshRounded } from "@mui/icons-material";
-import { setSpeed } from "../../store/common-settings-slice";
 import SpeedDropdown from "../SpeedDropdown/SpeedDropdown";
 
 const SortControls = () => {
