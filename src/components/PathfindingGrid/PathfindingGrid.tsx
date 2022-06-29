@@ -1,6 +1,6 @@
-import { keyboardKey } from "@testing-library/user-event";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { PathfindingAlgorithm } from "../../models";
 import { AppDispatch, RootState } from "../../store";
 import { addWall, addWeight, clearVisitedAndPath, clearWallsAndWeights, removeWall, removeWeight } from "../../store/pathfinding-visualizer-slice";
 import "./PathfindingGrid.scss";
@@ -49,10 +49,20 @@ const Grid = () => {
     dispatch(clearWallsAndWeights());
   }
 
+  const selectedAlgorithmIsUnweighted = () => {
+    return pv.algorithm === PathfindingAlgorithm.bfs || pv.algorithm === PathfindingAlgorithm.dfs
+  }
+
+  useEffect(() => {
+    if (selectedAlgorithmIsUnweighted() && drawingMode === "weight") {
+      setDrawingMode("wall")
+    }
+  }, [pv.algorithm]);
+
   const getColorClass = (node: number[]) => {
     const pos = node.join();
     if (pv.walls.includes(pos)) return " wall";
-    if (pv.weights.includes(pos)) return " weight"
+    if (!selectedAlgorithmIsUnweighted() && pv.weights.includes(pos)) return " weight"
     if (pv.path.includes(pos))  return " path";
     if (pv.visited.includes(pos)) return " visited";
     if (pv.start === pos)  return " start";
@@ -82,7 +92,6 @@ const Grid = () => {
                 id={rowIdx + "-" + colIdx}
                 className={`grid__node${getColorClass([rowIdx, colIdx])}`}
               >
-                {/* {pv.weights.includes([rowIdx, colIdx].join() && <span>weight</span>)} */}
               </div>
             ))}
           </div>
@@ -99,6 +108,7 @@ const Grid = () => {
           className={getButtonClassName("weight")}
           onClick={handleChangeMode}
           id="weight"
+          disabled={selectedAlgorithmIsUnweighted()}
         >
           Draw weight
         </button>
