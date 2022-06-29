@@ -10,6 +10,6 @@ Visualize various sorting and pathfinding algorithms. Built using React and Redu
 - Draw walls and weights on the grid. Weights have a cost of 10 (default is 1)
 
 ### Screenshots
-![sorting-vis.png](https://github.com/sarah157/algo-vis/blob/main/screenshots/sorting-vis.png)
-![pathfinding-vis.png](https://github.com/sarah157/algo-vis/blob/main/screenshots/pathfinding-vis.png)
+![sorting-vis.png](https://github.com/sarah157/algo-vis/blob/master/screenshots/sorting-vis.png)
+![pathfinding-vis.png](https://github.com/sarah157/algo-vis/blob/master/screenshots/pathfinding-vis.png)
 
