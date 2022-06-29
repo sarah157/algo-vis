@@ -1,6 +1,8 @@
 # AlgoVisualizer
 Visualize various sorting and pathfinding algorithms. Built using React and Redux Toolkit.
 
+[**Live Demo:**](https://reactalgovisualizer.netlify.app/)
+
 ### Sorting Visualizer: 
 - Visualize bubble sort, insertion sort, selection sort, quicksort, merge sort, and heapsort
 - Update array size and visualization mode (bar or scatter)

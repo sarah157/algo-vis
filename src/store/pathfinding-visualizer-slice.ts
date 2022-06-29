@@ -15,7 +15,7 @@ import { Node, PathfindingAlgorithm } from "../models/pathfinding-visualizer";
 import { CommonSettingsState } from "./common-settings-slice";
 import { speedToDelay } from "../models";
 
-const ROWS = 32;
+const ROWS = 30;
 const COLS = 55;
 
 interface PathfindingVisualizerState {
