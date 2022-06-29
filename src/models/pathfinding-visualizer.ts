@@ -24,6 +24,6 @@ export interface Node {
   isVisited: boolean;
   prevNode: Node | null;
   distance: number;
-  weight?: number;
+  weight: number;
   totalDistance?: number;
 }

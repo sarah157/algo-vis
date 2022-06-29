@@ -74,11 +74,17 @@ const pathfindingVisualizerSlice = createSlice({
       const pos = action.payload;
       if (pos === state.start || pos === state.end) return;
       state.walls.push(pos);
+      if (state.weights.includes(pos)) {
+        state.weights = state.weights.filter((position) => position !== pos);
+     }
     },
     addWeight(state, action: PayloadAction<string>) {
       const pos = action.payload;
       if (pos === state.start || pos === state.end) return;
       state.weights.push(pos);
+      if (state.walls.includes(pos)) {
+         state.walls = state.walls.filter((position) => position !== pos);
+      }
     },
     removeWall(state, action: PayloadAction<string>) {
       const pos = action.payload;
@@ -187,7 +193,7 @@ function createNode(col: number, row: number, state: any): Node {
     isWall: state.walls.includes([row, col].join()),
     prevNode: null,
     distance: Infinity,
-    weight: 1,
+    weight: state.weights.includes([row, col].join()) ? 10 : 1,
     totalDistance: Infinity,
   };
 }

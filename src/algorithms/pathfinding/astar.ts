@@ -45,7 +45,7 @@ export default function* astar(
       if (!isValid(grid, adjRow, adjCol)) continue;
 
       const adjNode: Node = grid[adjRow][adjCol];
-      const tempDistance = currentNode.distance + 1;
+      const tempDistance = currentNode.distance + currentNode.weight;
 
       if (tempDistance < adjNode.distance!) {
         adjNode.prevNode = { ...currentNode };
