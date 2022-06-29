@@ -1,0 +1,18 @@
+@import "../../styles/variables";
+
+.vis-selector {
+    margin: 0 auto;
+    margin-top: 15%;
+
+    &__heading {
+        color: $primary-color;
+        margin-bottom: 3em;
+    }
+
+    &__items {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+}

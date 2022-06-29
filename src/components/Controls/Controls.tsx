@@ -46,7 +46,7 @@ const Controls = ({ disabled, elements, className }: ControlsProps) => {
     <div ref={isMediumMax ? containerRef : null} className={`controls-container${!show ? " closed" : ""}`}>
       {isMediumMax && (
         <button className="controls__toggle" onClick={toggleShow} data-testid="controls-toggle">
-          {show ? <Close  /> : "Settings" }
+          {show ? <Close fontSize="small" /> : "Settings" }
         </button>
       )}
     {show &&  <div className={`controls ${className}`} data-testid="controls">

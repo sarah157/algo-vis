@@ -15,7 +15,7 @@ import { Node, PathfindingAlgorithm } from "../models/pathfinding-visualizer";
 import { CommonSettingsState } from "./common-settings-slice";
 import { speedToDelay } from "../models";
 
-const ROWS = 30;
+const ROWS = 25;
 const COLS = 50;
 
 interface PathfindingVisualizerState {
@@ -35,7 +35,7 @@ interface PathfindingVisualizerState {
 const initialState: PathfindingVisualizerState = {
   gridRows: ROWS,
   gridCols: COLS,
-  algorithm: PathfindingAlgorithm.bfs,
+  algorithm: PathfindingAlgorithm.astar,
   isSearching: false,
   isFound: false,
   walls: [],

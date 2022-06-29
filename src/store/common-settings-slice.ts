@@ -6,7 +6,7 @@ export interface CommonSettingsState {
 }
 
 const initialState: CommonSettingsState = {
-    speed: Speed.normal
+    speed: Speed.fast
 }
 
 const commonSettingsSlice = createSlice({

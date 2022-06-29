@@ -1,8 +1,8 @@
 export enum PathfindingAlgorithm {
-  bfs = "bfs",
-  dfs = "dfs",
   astar = "astar",
-  dijkstra = "dijkstra"
+  dijkstra = "dijkstra",
+  bfs = "bfs",
+  dfs = "dfs"
 }
 
 export enum PathfindingEventType {

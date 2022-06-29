@@ -37,7 +37,7 @@ const PathfindingControls = () => {
     if (pv.isFound) _clearVisitedAndPath();
   };
 
-  const algoLabelMap = {bfs: "Breadth-First Search", dfs: "Depth-First Search", astar: "A* (A-star)", dijkstra: "Dijkstra's"}
+  const algoLabelMap = {astar: "A* (A-star)", dijkstra: "Dijkstra's", bfs: "Breadth-First Search", dfs: "Depth-First Search" }
 
   const algorithmOptions: Option[] = Object.values(PathfindingAlgorithm).map((a) => {
     return { value: a, label: `${algoLabelMap[a]}` };

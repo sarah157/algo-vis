@@ -3,7 +3,7 @@
 
 .controls-container {
     background-color: $background-color;
-    padding: 0.5em 1em;
+    padding: 0.5em 1em 0.5em 3em;
     width: 100%;
 
     & button {
@@ -54,14 +54,14 @@
 
     &__toggle {
         position: fixed;
-        top: 0.75em;
+        top: 0.6em;
         right: 1.5em;
         z-index: 10000;
         text-align: center;
         margin-left: auto;
         width: min-content;
         min-height: 2em;
-        font-size: 16px;
+        font-size: 14px;
     }
 
     &__item {

@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/Layout/Header/Header";
 import Main from "./components/Layout/Main/Main";
+import Home from "./pages/Home";
 import PathfindingVisualizer from "./pages/PathfindingVisualizer";
 import SortingVisualizer from "./pages/SortingVisualizer";
 import "./styles/_global.scss";
@@ -8,11 +9,12 @@ import "./styles/_global.scss";
 function App() {
   return (
     <div className="App">
-      {/* <Header /> */}
+      <Header />
       <Main>
         <Routes>
-          <Route path="/s" element={<SortingVisualizer />}  />
-          <Route path="/" element={<PathfindingVisualizer />}  />
+          <Route index element={<Home />}/>
+          <Route path="/sorting" element={<SortingVisualizer />}  />
+          <Route path="/pathfinding" element={<PathfindingVisualizer />}  />
         </Routes>
       </Main>
     </div>

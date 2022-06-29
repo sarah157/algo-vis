@@ -20,17 +20,24 @@
 
   &__button {
     @include button(transparent);
-    // border: 1px solid $secondary-color;
-    width: 85px;
-    padding: 0.2em;
+    min-width: 80px;
+    width: min-content;
+    padding: 0.2em 1em;
     font-size: 0.9em;
 
     &.selected {
       background-color: $secondary-color;
     }
 
-  
+    &:disabled {
+      background-color: transparent;
+
+      &:hover {
+        background-color: transparent
+      }
+    }
   }
+
     #clear {
       @include button(transparent);   
       width: 85px;

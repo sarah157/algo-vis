@@ -1,7 +1,7 @@
 .nav {
     position: absolute;
-    top: 0.75em;
-    left: 1.5em;
+    top: 0.5em;
+    left: 1em;
     width: 100px;
     z-index: 10;
 }
@@ -10,6 +10,6 @@
     align-self: center;
     min-height: 2em; 
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
 }
